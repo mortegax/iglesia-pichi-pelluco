@@ -1,0 +1,11 @@
+# Sistema
+.DS_Store
+
+# Config local del editor / harness
+.claude/
+
+# Archivos fuente pesados (no necesarios para el sitio público)
+# Nota: ruta anclada con "/" para NO excluir assets/img/fotos/ (macOS ignora mayúsculas)
+/Fotos/
+*.ai
+*.docx

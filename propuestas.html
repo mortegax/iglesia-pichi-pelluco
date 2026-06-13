@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Propuestas de logo · Header IMPCH Pichi Pelluco</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --navy:#000f5f; --navy-deep:#002c55; --purple:#622367;
+    --grad:linear-gradient(120deg,#51b9ff,#9952ff 50%,#c315ff);
+    --deep:linear-gradient(160deg,#060a2e,#0a1450 45%,#1a1060 75%,#2a0f4d);
+    --serif:"Cormorant Garamond",serif; --sans:"Montserrat",sans-serif;
+    --line:rgba(10,19,48,.1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:#eef0f8;color:#0a1330;padding:3rem 1.5rem 5rem;line-height:1.6}
+  .wrap{max-width:1000px;margin:0 auto}
+  .intro{text-align:center;margin-bottom:3rem}
+  .intro h1{font-family:var(--serif);font-size:2.6rem;color:var(--navy);font-weight:600}
+  .intro p{color:#5b6080;margin-top:.6rem;max-width:60ch;margin-inline:auto}
+  .intro .badge{display:inline-block;background:var(--grad);color:#fff;font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:.4rem 1rem;border-radius:100px;margin-bottom:1rem}
+
+  .card{background:#fff;border-radius:20px;box-shadow:0 12px 40px rgba(10,19,48,.1);margin-bottom:2.2rem;overflow:hidden;border:1px solid var(--line)}
+  .card__head{padding:1.6rem 1.8rem 1.2rem;display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap}
+  .card__num{font-family:var(--serif);font-size:2.4rem;font-weight:600;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+  .card__title{font-size:1.3rem;font-weight:700;color:var(--navy)}
+  .card__desc{flex-basis:100%;color:#5b6080;font-size:.95rem;margin-top:.2rem}
+
+  /* Mock header bars */
+  .bars{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line)}
+  @media(max-width:680px){.bars{grid-template-columns:1fr}}
+  .bar{padding:1.4rem 1.8rem;display:flex;align-items:center;justify-content:space-between;min-height:84px}
+  .bar--dark{background:var(--deep)}
+  .bar--light{background:#fbfaff;border-left:1px solid var(--line)}
+  @media(max-width:680px){.bar--light{border-left:none;border-top:1px solid var(--line)}}
+  .bar__nav{display:flex;gap:1.1rem;align-items:center;font-size:.78rem;font-weight:500}
+  .bar--dark .bar__nav{color:rgba(255,255,255,.8)}
+  .bar--light .bar__nav{color:#0a1330}
+  .bar__nav .cta{background:var(--grad);color:#fff;padding:.4rem .9rem;border-radius:100px;font-weight:600}
+  @media(max-width:520px){.bar__nav span:not(.cta){display:none}}
+
+  /* Brand lockups */
+  .lockup{display:flex;align-items:center;gap:.7rem}
+  .iso{height:44px;width:auto;display:block}
+  .iso--sm{height:38px}
+  .stack{display:flex;flex-direction:column;line-height:1.05}
+  .eyebrow{font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;font-weight:600;opacity:.7}
+  .wordmark{font-family:var(--serif);font-size:1.25rem;font-weight:600}
+  .wordmark-sans{font-size:.9rem;font-weight:700;letter-spacing:.02em}
+  .bar--dark .eyebrow,.bar--dark .wordmark,.bar--dark .wordmark-sans{color:#fff}
+  .bar--light .eyebrow,.bar--light .wordmark{color:var(--navy)}
+  .bar--light .wordmark-sans{color:var(--navy)}
+  .divider{width:1px;height:34px;background:currentColor;opacity:.25}
+
+  /* Badge variant */
+  .badge-iso{display:grid;place-items:center;width:54px;height:54px;border-radius:15px;box-shadow:0 6px 18px rgba(98,35,103,.3)}
+  .badge-iso--grad{background:var(--grad)}
+  .badge-iso--soft-d{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2)}
+  .badge-iso--soft-l{background:#f3f1fb;border:1px solid var(--line)}
+  .badge-iso .iso{height:32px}
+
+  .label{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;opacity:.5;margin-bottom:.5rem;display:block}
+  .ctx{padding:0 1.8rem 1.4rem}
+  .ctx .label{margin-top:0}
+  .note{background:#fff;border:1px dashed var(--line);border-radius:14px;padding:1.2rem 1.4rem;font-size:.9rem;color:#5b6080;margin-top:1rem}
+  .note strong{color:var(--navy)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="intro">
+    <span class="badge">5 propuestas</span>
+    <h1>Header solo con el isotipo</h1>
+    <p>Separé el isotipo (el símbolo) del texto del logo. Aquí van 5 formas de usarlo en el header. Cada una se muestra sobre el <strong>fondo oscuro</strong> (al inicio) y sobre el <strong>fondo claro</strong> (al hacer scroll). Dime cuál te gusta y la dejo aplicada.</p>
+  </div>
+
+  <!-- P1 -->
+  <div class="card">
+    <div class="card__head">
+      <span class="card__num">01</span>
+      <span class="card__title">Isotipo solo — minimalista</span>
+      <span class="card__desc">Solo el símbolo con su degradado, sin nada de texto. Lo más limpio y moderno. El símbolo lleva todo el peso de la marca.</span>
+    </div>
+    <div class="bars">
+      <div class="bar bar--dark">
+        <span class="lockup"><img class="iso" src="assets/img/isotipo-white.svg" alt=""></span>
+        <span class="bar__nav"><span>Inicio</span><span>Historia</span><span class="cta">Visítanos</span></span>
+      </div>
+      <div class="bar bar--light">
+        <span class="lockup"><img class="iso" src="assets/img/isotipo.svg" alt=""></span>
+        <span class="bar__nav"><span>Inicio</span><span>Historia</span><span class="cta">Visítanos</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P2 -->
+  <div class="card">
+    <div class="card__head">
+      <span class="card__num">02</span>
+      <span class="card__title">Isotipo + nombre tipográfico</span>
+      <span class="card__desc">El isotipo junto al nombre, pero escrito como texto nítido en tipografía Montserrat/serif (no el texto borroso del logo). Se lee perfecto a cualquier tamaño.</span>
+    </div>
+    <div class="bars">
+      <div class="bar bar--dark">
+        <span class="lockup">
+          <img class="iso iso--sm" src="assets/img/isotipo-white.svg" alt="">
+          <span class="stack"><span class="eyebrow">IMPCH</span><span class="wordmark">Pichi Pelluco</span></span>
+        </span>
+        <span class="bar__nav"><span>Inicio</span><span>Historia</span><span class="cta">Visítanos</span></span>
+      </div>
+      <div class="bar bar--light">
+        <span class="lockup">
+          <img class="iso iso--sm" src="assets/img/isotipo.svg" alt="">
+          <span class="stack"><span class="eyebrow" style="color:var(--purple)">IMPCH</span><span class="wordmark">Pichi Pelluco</span></span>
+        </span>
+        <span class="bar__nav"><span>Inicio</span><span>Historia</span><span class="cta">Visítanos</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P3 -->
+  <div class="card">
+    <div class="card__head">
+      <span class="card__num">03</span>
+      <span class="card__title">Isotipo en insignia (estilo app)</span>
+      <span class="card__desc">El símbolo dentro de una insignia redondeada, como el ícono de una app. Se ve premium y destaca incluso en fondos complejos.</span>
+    </div>
+    <div class="bars">
+      <div class="bar bar--dark">
+        <span class="lockup">
+          <span class="badge-iso badge-iso--grad"><img class="iso" src="assets/img/isotipo-white.svg" alt=""></span>
+          <span class="stack"><span class="wordmark-sans">Pichi Pelluco</span><span class="eyebrow">Iglesia · Puerto Montt</span></span>
+        </span>
+        <span class="bar__nav"><span>Inicio</span><span>Historia</span><span class="cta">Visítanos</span></span>
+      </div>
+      <div class="bar bar--light">
+        <span class="lockup">
+          <span class="badge-iso badge-iso--grad"><img class="iso" src="assets/img/isotipo-white.svg" alt=""></span>
+          <span class="stack"><span class="wordmark-sans">Pichi Pelluco</span><span class="eyebrow" style="color:var(--purple)">Iglesia · Puerto Montt</span></span>
+        </span>
+        <span class="bar__nav"><span>Inicio</span><span>Historia</span><span class="cta">Visítanos</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P4 -->
+  <div class="card">
+    <div class="card__head">
+      <span class="card__num">04</span>
+      <span class="card__title">Isotipo monocromático — sobrio</span>
+      <span class="card__desc">El símbolo en un solo color (blanco sobre oscuro, azul marino sobre claro). Sin degradado: lo más elegante, serio y atemporal.</span>
+    </div>
+    <div class="bars">
+      <div class="bar bar--dark">
+        <span class="lockup"><img class="iso" src="assets/img/isotipo-white.svg" alt=""></span>
+        <span class="bar__nav"><span>Inicio</span><span>Historia</span><span class="cta">Visítanos</span></span>
+      </div>
+      <div class="bar bar--light">
+        <span class="lockup"><img class="iso" src="assets/img/isotipo-navy.svg" alt=""></span>
+        <span class="bar__nav"><span>Inicio</span><span>Historia</span><span class="cta">Visítanos</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- P5 -->
+  <div class="card">
+    <div class="card__head">
+      <span class="card__num">05</span>
+      <span class="card__title">Isotipo + nombre completo con separador</span>
+      <span class="card__desc">El símbolo, una línea divisoria fina y el nombre completo de la iglesia en mayúsculas con tracking amplio. Formal e institucional.</span>
+    </div>
+    <div class="bars">
+      <div class="bar bar--dark">
+        <span class="lockup">
+          <img class="iso iso--sm" src="assets/img/isotipo-white.svg" alt="">
+          <span class="divider" style="color:#fff"></span>
+          <span class="stack"><span class="eyebrow">Iglesia Metodista Pentecostal</span><span class="wordmark-sans" style="letter-spacing:.12em">PICHI PELLUCO</span></span>
+        </span>
+        <span class="bar__nav"><span>Inicio</span><span class="cta">Visítanos</span></span>
+      </div>
+      <div class="bar bar--light">
+        <span class="lockup">
+          <img class="iso iso--sm" src="assets/img/isotipo.svg" alt="">
+          <span class="divider" style="color:var(--navy)"></span>
+          <span class="stack"><span class="eyebrow" style="color:var(--purple)">Iglesia Metodista Pentecostal</span><span class="wordmark-sans" style="letter-spacing:.12em">PICHI PELLUCO</span></span>
+        </span>
+        <span class="bar__nav"><span>Inicio</span><span class="cta">Visítanos</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>Nota:</strong> el isotipo grande del Hero (la portada) se mantiene con el logo completo, porque ahí sí hay espacio y se ve imponente. Estas propuestas son solo para la <strong>barra de navegación</strong> superior. Dime el número que prefieres (o una mezcla) y lo aplico al sitio.
+  </div>
+
+</div>
+</body>
+</html>
