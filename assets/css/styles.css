@@ -390,7 +390,7 @@ ul, ol { list-style: none; }
   padding: 1.5px; background: var(--grad-brand);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor; mask-composite: exclude;
-  opacity: 0; transition: opacity 0.4s;
+  opacity: 0; transition: opacity 0.4s; pointer-events: none;
 }
 .ministry:hover { transform: translateY(-8px); box-shadow: var(--shadow-md); }
 .ministry:hover::after { opacity: 1; }
