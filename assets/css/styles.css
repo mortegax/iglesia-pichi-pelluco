@@ -403,6 +403,48 @@ ul, ol { list-style: none; }
 .ministry__icon svg { width: 28px; height: 28px; }
 .ministry h3 { font-family: var(--sans); font-size: 1.3rem; font-weight: 700; letter-spacing: -0.01em; color: var(--navy); margin-bottom: 0.6rem; }
 .ministry p { color: var(--muted); font-size: 0.98rem; }
+.ministry__intro {
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5;
+  overflow: hidden;
+}
+.ministry__more {
+  margin-top: 1rem; background: none; border: none; cursor: pointer; padding: 0;
+  font-family: var(--sans); font-size: 0.92rem; font-weight: 700; letter-spacing: 0.01em;
+  color: var(--purple); display: inline-flex; align-items: center; gap: 0.4rem;
+  transition: gap 0.3s var(--ease);
+}
+.ministry__more::after { content: "→"; transition: transform 0.3s var(--ease); }
+.ministry__more:hover { gap: 0.6rem; }
+
+/* Modal de ministerio */
+.ministry-modal {
+  position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center;
+  background: rgba(4, 6, 24, 0.92); backdrop-filter: blur(8px);
+  opacity: 0; visibility: hidden; transition: opacity 0.35s var(--ease), visibility 0.35s;
+  padding: 2rem 1.4rem;
+}
+.ministry-modal.open { opacity: 1; visibility: visible; }
+.ministry-modal__panel {
+  position: relative; background: var(--cloud); border-radius: var(--radius);
+  max-width: min(640px, 94vw); max-height: 86vh; overflow-y: auto;
+  padding: clamp(1.8rem, 4vw, 2.8rem); box-shadow: var(--shadow-lg);
+  transform: translateY(16px) scale(0.98); transition: transform 0.35s var(--ease);
+}
+.ministry-modal.open .ministry-modal__panel { transform: none; }
+.ministry-modal__close {
+  position: absolute; top: 1rem; right: 1.2rem; background: none; border: none;
+  font-size: 2.2rem; line-height: 1; color: var(--muted); cursor: pointer; transition: color 0.3s;
+}
+.ministry-modal__close:hover { color: var(--navy); }
+.ministry-modal__icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 56px; height: 56px; border-radius: 16px; margin-bottom: 1.1rem;
+  background: var(--grad-brand); color: #fff; box-shadow: 0 10px 24px rgba(98, 35, 103, 0.28);
+}
+.ministry-modal__icon svg { width: 28px; height: 28px; }
+.ministry-modal__title { font-family: var(--sans); font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em; color: var(--navy); margin-bottom: 1rem; }
+.ministry-modal__body p { color: var(--muted); font-size: 1rem; margin-bottom: 1rem; }
+.ministry-modal__body p:last-child { margin-bottom: 0; }
 
 /* ============================================================
    GALERÍA

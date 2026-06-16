@@ -91,6 +91,41 @@
     });
   }
 
+  /* ---- Ministerios: "Leer más" abre el texto completo ---- */
+  const mModal = document.getElementById("ministryModal");
+  if (mModal) {
+    const mTitle = document.getElementById("ministryModalTitle");
+    const mIcon = document.getElementById("ministryModalIcon");
+    const mBody = document.getElementById("ministryModalBody");
+    const mClose = document.getElementById("ministryModalClose");
+
+    const openModal = (article) => {
+      const tpl = article.querySelector("template");
+      const icon = article.querySelector(".ministry__icon");
+      mTitle.textContent = article.querySelector("h3").textContent;
+      mIcon.innerHTML = icon ? icon.innerHTML : "";
+      mBody.innerHTML = "";
+      if (tpl) mBody.appendChild(tpl.content.cloneNode(true));
+      mModal.classList.add("open");
+      mModal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    };
+    const closeModal = () => {
+      mModal.classList.remove("open");
+      mModal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    };
+
+    document.querySelectorAll(".ministry__more").forEach((btn) =>
+      btn.addEventListener("click", () => openModal(btn.closest(".ministry")))
+    );
+    mClose.addEventListener("click", closeModal);
+    mModal.addEventListener("click", (e) => { if (e.target === mModal) closeModal(); });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && mModal.classList.contains("open")) closeModal();
+    });
+  }
+
   /* ---- Año dinámico en el footer ---- */
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
