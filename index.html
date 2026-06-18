@@ -19,6 +19,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <!-- Ajuste: horarios agrupados por día (una tarjeta por día) -->
+  <style>
+    .schedule { align-items: start; }
+    .schedule__activities { display: flex; flex-direction: column; gap: 0.85rem; margin-top: 0.6rem; }
+    .schedule__activities li { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding-bottom: 0.85rem; border-bottom: 1px solid var(--line); }
+    .schedule__activities li:last-child { padding-bottom: 0; border-bottom: none; }
+    .schedule__activities .schedule__name { font-size: 1.02rem; }
+    .schedule__activities .schedule__time { font-size: 1.5rem; margin-top: 0; white-space: nowrap; }
+    .schedule__rest { margin-top: 0.6rem; color: var(--muted); font-style: italic; }
+    .schedule__item--feature .schedule__activities li { border-bottom-color: rgba(255,255,255,0.20); }
+  </style>
 </head>
 <body>
 
@@ -184,51 +196,44 @@
       <div class="schedule reveal">
         <div class="schedule__item schedule__item--rest">
           <span class="schedule__day">Lunes</span>
-          <span class="schedule__name">Sin reuniones</span>
+          <span class="schedule__rest">Sin reuniones</span>
         </div>
         <div class="schedule__item">
           <span class="schedule__day">Martes</span>
-          <span class="schedule__name">Ensayo de coro</span>
-          <span class="schedule__time">20:00</span>
+          <ul class="schedule__activities">
+            <li><span class="schedule__name">Ensayo de coro</span><span class="schedule__time">20:00</span></li>
+          </ul>
         </div>
         <div class="schedule__item">
           <span class="schedule__day">Miércoles</span>
-          <span class="schedule__name">Clase de Dorcas</span>
-          <span class="schedule__time">15:00</span>
-        </div>
-        <div class="schedule__item">
-          <span class="schedule__day">Miércoles</span>
-          <span class="schedule__name">Estudio Bíblico</span>
-          <span class="schedule__time">20:00</span>
+          <ul class="schedule__activities">
+            <li><span class="schedule__name">Clase de Dorcas</span><span class="schedule__time">15:00</span></li>
+            <li><span class="schedule__name">Estudio Bíblico</span><span class="schedule__time">20:00</span></li>
+          </ul>
         </div>
         <div class="schedule__item">
           <span class="schedule__day">Jueves</span>
-          <span class="schedule__name">Culto General</span>
-          <span class="schedule__time">19:30</span>
+          <ul class="schedule__activities">
+            <li><span class="schedule__name">Culto General</span><span class="schedule__time">19:30</span></li>
+          </ul>
         </div>
         <div class="schedule__item">
           <span class="schedule__day">Viernes</span>
-          <span class="schedule__name">Juventud Mixta y Voluntarios</span>
-          <span class="schedule__time">20:00</span>
+          <ul class="schedule__activities">
+            <li><span class="schedule__name">Juventud Mixta y Voluntarios</span><span class="schedule__time">20:00</span></li>
+          </ul>
         </div>
         <div class="schedule__item schedule__item--rest">
           <span class="schedule__day">Sábado</span>
-          <span class="schedule__name">Sin reuniones</span>
-        </div>
-        <div class="schedule__item">
-          <span class="schedule__day">Domingo</span>
-          <span class="schedule__name">Escuela Dominical</span>
-          <span class="schedule__time">10:30</span>
-        </div>
-        <div class="schedule__item">
-          <span class="schedule__day">Domingo</span>
-          <span class="schedule__name">Ensayo de coro</span>
-          <span class="schedule__time">14:30</span>
+          <span class="schedule__rest">Sin reuniones</span>
         </div>
         <div class="schedule__item schedule__item--feature">
           <span class="schedule__day">Domingo</span>
-          <span class="schedule__name">Culto General</span>
-          <span class="schedule__time">17:00</span>
+          <ul class="schedule__activities">
+            <li><span class="schedule__name">Escuela Dominical</span><span class="schedule__time">10:30</span></li>
+            <li><span class="schedule__name">Ensayo de coro</span><span class="schedule__time">14:30</span></li>
+            <li><span class="schedule__name">Culto General</span><span class="schedule__time">17:00</span></li>
+          </ul>
         </div>
       </div>
 
