@@ -60,6 +60,31 @@
     .video-modal__close { position: absolute; top: 1.4rem; right: 1.6rem; background: none; border: none; color: #fff; font-size: 2.6rem; line-height: 1; cursor: pointer; opacity: 0.85; transition: opacity 0.3s; }
     .video-modal__close:hover { opacity: 1; }
     .vision__lead { font-family: var(--sans); }
+
+    /* Emblema oficial IMPCh (secundario) */
+    .footer__affiliation { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; margin-top: 0.2rem; }
+    .footer__emblem { height: 58px; width: auto; opacity: 0.95; }
+    .footer__affiliation span { font-size: 0.74rem; letter-spacing: 0.04em; color: rgba(255,255,255,0.5); }
+    .faith__emblem { height: 76px; width: auto; display: block; margin: 1.2rem auto 0; opacity: 0.95; }
+    /* Galería por carpetas (álbumes) */
+    .albums { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 220px; gap: 1rem; }
+    .album-card { position: relative; border: none; padding: 0; cursor: pointer; border-radius: 18px; overflow: hidden; box-shadow: var(--shadow-sm); background: var(--navy-deep); font-family: var(--sans); }
+    .album-card--wide { grid-column: span 2; }
+    .album-card > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.7s var(--ease); filter: saturate(1.02); }
+    .album-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(6,10,46,0.78) 0%, transparent 58%); transition: opacity 0.4s; }
+    .album-card:hover > img { transform: scale(1.07); }
+    .album-card__badge { position: absolute; top: 0.7rem; right: 0.7rem; z-index: 2; background: rgba(6,10,46,0.65); color: #fff; font-size: 0.72rem; font-weight: 600; padding: 0.25rem 0.65rem; border-radius: 100px; backdrop-filter: blur(4px); }
+    .album-card__label { position: absolute; left: 0; bottom: 0; z-index: 2; padding: 1rem 1.2rem; color: #fff; font-weight: 700; font-size: 1.05rem; }
+    @media (max-width: 760px) { .albums { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 150px; } .album-card--wide { grid-column: span 2; } }
+    .album-lightbox { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; background: rgba(4,6,24,0.92); backdrop-filter: blur(8px); opacity: 0; visibility: hidden; transition: opacity 0.35s var(--ease), visibility 0.35s; padding: 4rem 1.5rem; }
+    .album-lightbox.open { opacity: 1; visibility: visible; }
+    .album-lightbox__stage { margin: 0; max-width: min(900px, 92vw); text-align: center; }
+    .album-lightbox__stage img { max-width: 100%; max-height: 78vh; border-radius: 14px; box-shadow: 0 30px 80px rgba(0,0,0,0.6); }
+    .album-lightbox__stage figcaption { color: #fff; margin-top: 1rem; font-weight: 500; letter-spacing: 0.02em; }
+    .album-lightbox__close { position: absolute; top: 1.4rem; right: 1.6rem; background: none; border: none; color: #fff; font-size: 2.6rem; line-height: 1; cursor: pointer; opacity: 0.85; }
+    .album-lightbox__nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 52px; height: 52px; border-radius: 50%; font-size: 1.8rem; cursor: pointer; display: grid; place-items: center; }
+    .album-lightbox__prev { left: 1.2rem; } .album-lightbox__next { right: 1.2rem; }
+    @media (max-width: 560px) { .album-lightbox__nav { width: 42px; height: 42px; font-size: 1.4rem; } }
   </style>
 </head>
 <body>
@@ -418,47 +443,42 @@
         <p class="lead lead--center">Momentos de adoración, comunión y servicio que dan testimonio de la obra de Dios en Pichi Pelluco.</p>
       </div>
 
-      <div class="gallery reveal">
-        <figure class="gallery__item gallery__item--wide" data-caption="Nuestra congregación en adoración">
-          <img src="assets/img/fotos/congregacion.jpg" alt="Congregación en adoración" loading="lazy" />
-          <figcaption>Nuestra congregación</figcaption>
-        </figure>
-        <figure class="gallery__item gallery__item--wide" data-caption="Comunión, juventud y servicio">
-          <img src="assets/img/fotos/grupo.jpg" alt="Comunión y servicio" loading="lazy" />
-          <figcaption>Comunión y servicio</figcaption>
-        </figure>
-        <figure class="gallery__item" data-caption="Coro Instrumental">
-          <img src="assets/img/fotos/coro.jpg" alt="Coro Instrumental" loading="lazy" />
-          <figcaption>Coro Instrumental</figcaption>
-        </figure>
-        <figure class="gallery__item" data-caption="Juventud Mixta en danza">
-          <img src="assets/img/fotos/juventud.jpg" alt="Juventud Mixta" loading="lazy" />
-          <figcaption>Juventud Mixta</figcaption>
-        </figure>
-        <figure class="gallery__item" data-caption="Escuela Dominical · clase">
-          <img src="assets/img/fotos/escuela-dominical.jpg" alt="Clase de Escuela Dominical" loading="lazy" />
-          <figcaption>Escuela Dominical</figcaption>
-        </figure>
-        <figure class="gallery__item" data-caption="Culto General">
-          <img src="assets/img/fotos/adoracion.jpg" alt="Culto General" loading="lazy" />
-          <figcaption>Culto General</figcaption>
-        </figure>
-        <figure class="gallery__item" data-caption="Danza y adoración">
-          <img src="assets/img/fotos/danza-adoracion.jpg" alt="Danza y adoración" loading="lazy" />
-          <figcaption>Danza y adoración</figcaption>
-        </figure>
-        <figure class="gallery__item" data-caption="Escuela Dominical · niños">
-          <img src="assets/img/fotos/escuela-ninos.jpg" alt="Escuela Dominical de niños" loading="lazy" />
-          <figcaption>Escuela Dominical · niños</figcaption>
-        </figure>
-        <figure class="gallery__item" data-caption="Estudio de la Palabra">
-          <img src="assets/img/fotos/estudio-palabra.jpg" alt="Estudio de la Palabra" loading="lazy" />
-          <figcaption>Estudio de la Palabra</figcaption>
-        </figure>
-        <figure class="gallery__item" data-caption="Adoración con música">
-          <img src="assets/img/fotos/musica.jpg" alt="Adoración con música" loading="lazy" />
-          <figcaption>Adoración con música</figcaption>
-        </figure>
+      <div class="albums reveal">
+        <button class="album-card" type="button" data-album="congregacion">
+          <img src="assets/img/fotos/congregacion.jpg" alt="" loading="lazy" />
+          <span class="album-card__badge">2 fotos</span>
+          <span class="album-card__label">Nuestra Congregación</span>
+        </button>
+        <button class="album-card" type="button" data-album="comunion">
+          <img src="assets/img/fotos/comunion-1.jpg" alt="" loading="lazy" />
+          <span class="album-card__badge">2 fotos</span>
+          <span class="album-card__label">Comunión y Servicio</span>
+        </button>
+        <button class="album-card" type="button" data-album="coro">
+          <img src="assets/img/fotos/coro.jpg" alt="" loading="lazy" />
+          <span class="album-card__badge">2 fotos</span>
+          <span class="album-card__label">Coro Instrumental</span>
+        </button>
+        <button class="album-card" type="button" data-album="juventud">
+          <img src="assets/img/fotos/juventud-2.jpg" alt="" loading="lazy" />
+          <span class="album-card__badge">2 fotos</span>
+          <span class="album-card__label">Juventud Mixta</span>
+        </button>
+        <button class="album-card album-card--wide" type="button" data-album="escuela">
+          <img src="assets/img/fotos/escuela-dominical.jpg" alt="" loading="lazy" />
+          <span class="album-card__badge">5 fotos</span>
+          <span class="album-card__label">Escuela Dominical</span>
+        </button>
+        <button class="album-card" type="button" data-album="culto">
+          <img src="assets/img/fotos/adoracion.jpg" alt="" loading="lazy" />
+          <span class="album-card__badge">2 fotos</span>
+          <span class="album-card__label">Culto General</span>
+        </button>
+        <button class="album-card" type="button" data-album="danza">
+          <img src="assets/img/fotos/danza-adoracion.jpg" alt="" loading="lazy" />
+          <span class="album-card__badge">3 fotos</span>
+          <span class="album-card__label">Danza y Adoración</span>
+        </button>
       </div>
     </div>
 
@@ -473,6 +493,17 @@
       <button class="lightbox__nav lightbox__next" id="lightboxNext" aria-label="Siguiente">&#8250;</button>
     </div>
   </section>
+
+  <!-- Visor de álbum (galería por carpetas) -->
+  <div class="album-lightbox" id="albumLightbox" aria-hidden="true">
+    <button class="album-lightbox__close" id="albumClose" aria-label="Cerrar">&times;</button>
+    <button class="album-lightbox__nav album-lightbox__prev" id="albumPrev" aria-label="Anterior">&#8249;</button>
+    <figure class="album-lightbox__stage">
+      <img id="albumImg" src="" alt="" />
+      <figcaption id="albumCap"></figcaption>
+    </figure>
+    <button class="album-lightbox__nav album-lightbox__next" id="albumNext" aria-label="Siguiente">&#8250;</button>
+  </div>
 
   <!-- ============ REDES SOCIALES ============ -->
   <section class="section section--social" id="redes">
@@ -698,6 +729,7 @@
       <div class="section__head reveal">
         <span class="kicker kicker--light">Nuestra fe</span>
         <h2 class="display display--light">En qué creemos</h2>
+        <img src="assets/img/fotos/impch-emblema.png" alt="" class="faith__emblem" />
       </div>
 
       <ol class="beliefs reveal">
@@ -762,6 +794,10 @@
     <div class="container footer__inner">
       <img src="assets/img/logo-white.svg" alt="IMPCH Pichi Pelluco" class="footer__logo" />
       <p class="footer__verse">“Una cosa he demandado a Jehová, ésta buscaré: que esté yo en la casa de Jehová todos los días de mi vida.” — Salmo 27:4</p>
+      <div class="footer__affiliation">
+        <img src="assets/img/fotos/impch-emblema.png" alt="Emblema Iglesia Metodista Pentecostal de Chile" class="footer__emblem" />
+        <span>Afiliada a la Iglesia Metodista Pentecostal de Chile · 1909</span>
+      </div>
       <p class="footer__copy">© <span id="year"></span> Iglesia Metodista Pentecostal de Chile · Pichi Pelluco, Puerto Montt. Hecho con fe para la gloria de Dios.</p>
     </div>
   </footer>
@@ -786,6 +822,32 @@
       closeBtn.addEventListener('click',closeVid);
       modal.addEventListener('click',function(e){ if(e.target===modal) closeVid(); });
       document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeVid(); });
+    })();
+  </script>
+  <script>
+    (function(){
+      var A = {
+        congregacion:[{s:"assets/img/fotos/congregacion.jpg",c:"Congregación en adoración"},{s:"assets/img/fotos/congregacion-2.jpg",c:"Reunidos en el templo"}],
+        comunion:[{s:"assets/img/fotos/comunion-1.jpg",c:"Vida en comunidad"},{s:"assets/img/fotos/comunion-2.jpg",c:"Compartiendo la Palabra"}],
+        coro:[{s:"assets/img/fotos/coro.jpg",c:"Coro Instrumental"},{s:"assets/img/fotos/musica.jpg",c:"Adoración con música"}],
+        juventud:[{s:"assets/img/fotos/juventud-2.jpg",c:"Jóvenes en comunión"},{s:"assets/img/fotos/juventud-1.jpg",c:"Compartiendo en juventud"}],
+        escuela:[{s:"assets/img/fotos/escuela-dominical.jpg",c:"Clase con los niños"},{s:"assets/img/fotos/estudio-palabra.jpg",c:"Estudio de la Palabra"},{s:"assets/img/fotos/escuela-mujeres.jpg",c:"Estudio de las hermanas"},{s:"assets/img/fotos/escuela-ninos.jpg",c:"Actividades de los niños"},{s:"assets/img/fotos/escuela-nino.jpg",c:"Aprendiendo en familia"}],
+        culto:[{s:"assets/img/fotos/adoracion.jpg",c:"Culto General"},{s:"assets/img/fotos/culto-2.jpg",c:"Reunidos en adoración"}],
+        danza:[{s:"assets/img/fotos/danza-adoracion.jpg",c:"Danza y adoración"},{s:"assets/img/fotos/juventud.jpg",c:"Panderistas en adoración"},{s:"assets/img/fotos/grupo.jpg",c:"Grupo de danza"}]
+      };
+      var lb=document.getElementById('albumLightbox'); if(!lb) return;
+      var img=document.getElementById('albumImg'), cap=document.getElementById('albumCap');
+      var cur=[], idx=0;
+      function show(){ var it=cur[idx]; img.src=it.s; img.alt=it.c; cap.textContent=it.c+"  ("+(idx+1)+"/"+cur.length+")"; }
+      function open(id){ cur=A[id]||[]; if(!cur.length) return; idx=0; show(); lb.classList.add('open'); lb.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
+      function close(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); img.src=''; document.body.style.overflow=''; }
+      function nav(d){ if(!cur.length) return; idx=(idx+d+cur.length)%cur.length; show(); }
+      document.querySelectorAll('.album-card').forEach(function(c){ c.addEventListener('click',function(){ open(c.getAttribute('data-album')); }); });
+      document.getElementById('albumClose').addEventListener('click',close);
+      document.getElementById('albumPrev').addEventListener('click',function(){nav(-1);});
+      document.getElementById('albumNext').addEventListener('click',function(){nav(1);});
+      lb.addEventListener('click',function(e){ if(e.target===lb) close(); });
+      document.addEventListener('keydown',function(e){ if(!lb.classList.contains('open'))return; if(e.key==='Escape')close(); else if(e.key==='ArrowLeft')nav(-1); else if(e.key==='ArrowRight')nav(1); });
     })();
   </script>
 </body>
