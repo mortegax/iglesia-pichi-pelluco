@@ -96,6 +96,18 @@
     .agenda__hint a { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--purple); font-weight: 600; }
     .agenda__hint a:hover { color: var(--navy); }
     @media (max-width: 600px) { .agenda__frame { height: 480px; } .agenda__frame iframe { height: 544px; } }
+
+    /* Nuestros Pastores */
+    .section--pastors { background: var(--paper); }
+    .pastors__duo { display: flex; gap: 1.6rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.6rem; }
+    .pastors__card { width: min(340px, 90vw); margin: 0; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform 0.4s var(--ease), box-shadow 0.4s; }
+    .pastors__card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+    .pastors__card img { width: 100%; height: 300px; object-fit: cover; object-position: center 20%; display: block; }
+    .pastors__card figcaption { padding: 1rem 1.2rem; text-align: center; font-weight: 600; color: var(--navy); }
+    .pastors__text { max-width: 760px; margin: 0 auto; }
+    .pastors__text p { color: var(--muted); margin-bottom: 1.1rem; }
+    .pastors__text p:last-child { margin-bottom: 0; }
+    .pastors__lead { font-family: var(--serif); font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.5; color: var(--navy) !important; }
   </style>
 </head>
 <body>
@@ -249,6 +261,34 @@
           <span class="pastor__role">Pastores de la congregación</span>
         </figcaption>
       </figure>
+    </div>
+  </section>
+
+  <!-- ============ NUESTROS PASTORES ============ -->
+  <section class="section section--pastors" id="pastores">
+    <div class="container">
+      <div class="section__head reveal">
+        <span class="kicker">Nuestro liderazgo</span>
+        <h2 class="display">Nuestros Pastores</h2>
+      </div>
+      <div class="pastors__duo reveal">
+        <figure class="pastors__card">
+          <img src="assets/img/fotos/pastor-mario.jpg" alt="Pastor Mario Hernán Ortega Olmedo" loading="lazy" />
+          <figcaption>Pastor Mario Hernán Ortega Olmedo</figcaption>
+        </figure>
+        <figure class="pastors__card">
+          <img src="assets/img/fotos/pastora-irene.jpg" alt="Pastora Irene de la Cruz Muñoz Correa" loading="lazy" />
+          <figcaption>Pastora Irene de la Cruz Muñoz Correa</figcaption>
+        </figure>
+      </div>
+      <div class="pastors__text reveal">
+        <p class="pastors__lead">Nuestros pastores, Mario Ortega Olmedo e Irene Muñoz Correa, han dedicado gran parte de su vida al servicio del Señor y de la Iglesia Metodista Pentecostal de Chile en Pichi Pelluco.</p>
+        <p>Antes de asumir el pastorado de nuestra congregación, sirvieron en distintas áreas de la obra: en la juventud, en el cuerpo de Oficiales, en las Dorcas, en el Estudio Bíblico, en los locales de la iglesia y también en el coro. Esa trayectoria de servicio les permitió conocer de cerca la vida de la congregación, sus necesidades, sus luchas y también la fe sencilla de los hermanos y hermanas que han formado parte de esta iglesia.</p>
+        <p>Durante su ministerio pastoral, han trabajado con constancia en el cuidado espiritual de la congregación, procurando que la Palabra del Señor ocupe siempre el lugar principal. Junto a las Dorcas, los hermanos Oficiales, los Voluntarios, la Juventud y todos quienes componen la iglesia, han impulsado distintas labores para hermosear el templo, adaptar sus espacios a las necesidades actuales y disponer lugares adecuados para la adoración, la enseñanza y el servicio, incluyendo salas para la Escuela Dominical y otros espacios de encuentro.</p>
+        <p>Uno de los sellos de su pastorado ha sido abrir puertas para que los hermanos puedan servir, trabajar y desarrollar sus dones. Bajo su dirección, la iglesia ha procurado conservar su identidad espiritual, sin cerrar el paso a nuevas ideas, herramientas y formas de trabajo que permitan fortalecer la obra del Señor.</p>
+        <p>Su ministerio se ha caracterizado por un pastoreo sencillo, cercano y consciente de la responsabilidad que implica servir a la iglesia. Nuestro pastor Mario ha enseñado muchas veces que el pastorado es un cargo de servicio, pero que el dueño de la iglesia es el Señor. Por eso, toda obra, todo avance y toda bendición pertenecen a Dios, y a Él se le debe siempre la gloria, la honra y el honor.</p>
+        <p>Con gratitud reconocemos en nuestros pastores una vida de entrega, fidelidad y amor por la obra del Señor, confiando en que Dios seguirá guiando a su iglesia conforme a su voluntad.</p>
+      </div>
     </div>
   </section>
 
