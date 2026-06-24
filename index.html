@@ -108,6 +108,19 @@
     .pastors__text p { color: var(--muted); margin-bottom: 1.1rem; }
     .pastors__text p:last-child { margin-bottom: 0; }
     .pastors__lead { font-family: var(--serif); font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.5; color: var(--navy) !important; }
+
+    /* Acción de Gracias */
+    .section--thanks { background: var(--paper-2); }
+    .thanks__grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+    .thanks__media { margin: 0; }
+    .thanks__media img { width: 100%; border-radius: var(--radius); box-shadow: var(--shadow-md); display: block; }
+    .thanks__media figcaption { margin-top: 0.8rem; font-size: 0.9rem; color: var(--muted); text-align: center; font-style: italic; }
+    .thanks__text p { color: var(--muted); margin-bottom: 1.1rem; }
+    .thanks__text p:last-child { margin-bottom: 0; }
+    .thanks__lead { font-family: var(--serif); font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.5; color: var(--navy) !important; }
+    @media (max-width: 860px) { .thanks__grid { grid-template-columns: 1fr; } }
+    /* Reproductor de video local (intro) */
+    .video-modal__frame video { width: 100%; height: 100%; display: block; background: #000; }
   </style>
 </head>
 <body>
@@ -166,6 +179,7 @@
       <div class="hero__actions">
         <a href="#horarios" class="btn btn--primary">Horarios de culto</a>
         <a href="#contacto" class="btn btn--ghost">Cómo llegar</a>
+        <button type="button" class="btn btn--ghost hero__intro" id="introBtn" aria-label="Ver video de introducción">▶ Ver intro</button>
       </div>
     </div>
 
@@ -364,6 +378,29 @@
             <span class="locale__time">Domingo · 11:00 hrs</span>
             <span class="locale__link">Ver en mapa →</span>
           </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ACCIÓN DE GRACIAS ============ -->
+  <section class="section section--thanks" id="accion-gracias">
+    <div class="container">
+      <div class="section__head reveal">
+        <span class="kicker">Cada año</span>
+        <h2 class="display">Acción de Gracias</h2>
+      </div>
+      <div class="thanks__grid reveal">
+        <figure class="thanks__media">
+          <img src="assets/img/fotos/accion-gracias-cordero.jpg" alt="Ofrenda del cordero en la Acción de Gracias" loading="lazy" />
+          <figcaption>La última ofrenda: el cordero, símbolo del sacrificio de Cristo.</figcaption>
+        </figure>
+        <div class="thanks__text">
+          <p class="thanks__lead">La Acción de Gracias es una de las actividades más significativas de nuestra iglesia. Cada año, la congregación se une en torno a este tiempo especial, que tiene un profundo sentido espiritual y también una dimensión material importante para el sostenimiento de la obra del Señor.</p>
+          <p>Durante este periodo se realizan cultos, encuentros, visitas, charlas y distintas actividades que buscan fortalecer la fe, la comunión y el compromiso de los hermanos y hermanas con Dios y con su iglesia. Es un tiempo para recordar con gratitud lo que el Señor ha hecho, renovar nuestras fuerzas espirituales y disponer el corazón para servir con amor.</p>
+          <p>La Acción de Gracias también se caracteriza por el esfuerzo y trabajo de toda la congregación. Con dedicación, organización y alegría, los hermanos colaboran para reunir recursos que permiten sostener, cuidar y proyectar la obra que Dios nos ha encomendado.</p>
+          <p>Uno de los momentos más especiales de esta celebración es la puesta en escena inspirada en el pueblo de Israel, donde los hermanos representan con vestimentas y ofrendas simbólicas una expresión de gratitud delante del Señor. Junto a los sobres de ofrenda, se presentan también ofrendas representativas que dan un sentido espiritual y visual a este acto de entrega.</p>
+          <p>Cada año, la última ofrenda corresponde al cordero, símbolo que nos recuerda el sacrificio, la entrega y el amor de Jesucristo por la humanidad. De esta manera, la Acción de Gracias no solo mira al esfuerzo de la iglesia, sino principalmente a Cristo, quien es el centro de nuestra fe y la razón de toda gratitud.</p>
         </div>
       </div>
     </div>
@@ -912,6 +949,23 @@
       document.getElementById('albumNext').addEventListener('click',function(){nav(1);});
       lb.addEventListener('click',function(e){ if(e.target===lb) close(); });
       document.addEventListener('keydown',function(e){ if(!lb.classList.contains('open'))return; if(e.key==='Escape')close(); else if(e.key==='ArrowLeft')nav(-1); else if(e.key==='ArrowRight')nav(1); });
+    })();
+  </script>
+  <!-- Modal de intro (video local) -->
+  <div class="video-modal" id="introModal" aria-hidden="true">
+    <button class="video-modal__close" id="introClose" aria-label="Cerrar">&times;</button>
+    <div class="video-modal__frame"><video id="introVideo" src="assets/img/fotos/intro.mp4" controls playsinline preload="none"></video></div>
+  </div>
+  <script>
+    (function(){
+      var modal=document.getElementById('introModal'); if(!modal) return;
+      var vid=document.getElementById('introVideo'), btn=document.getElementById('introBtn'), close=document.getElementById('introClose');
+      function open(){ modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; try{vid.currentTime=0;}catch(e){} vid.play().catch(function(){}); }
+      function closeM(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); vid.pause(); document.body.style.overflow=''; }
+      if(btn) btn.addEventListener('click',open);
+      close.addEventListener('click',closeM);
+      modal.addEventListener('click',function(e){ if(e.target===modal) closeM(); });
+      document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&modal.classList.contains('open')) closeM(); });
     })();
   </script>
 </body>
