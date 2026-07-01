@@ -174,7 +174,8 @@
     /* ---- Layout: menú centrado. La marca aparece SOLO al hacer scroll ---- */
     .nav__inner{ position: relative; justify-content: center; }
     .nav__brand{ display: none !important; }   /* oculta al abrir (sobre el hero) */
-    /* Al bajar y cambiar la barra a claro, reaparece la marca (isotipo a color) a la izquierda */
+    .nav__divider, .nav__brand-text{ display: none !important; }   /* solo el isotipo, sin texto */
+    /* Al bajar y cambiar la barra a claro, reaparece SOLO el isotipo (a color) a la izquierda */
     .nav.scrolled .nav__brand{ display: flex !important; position: absolute; left: 0; top: 50%; transform: translateY(-50%); }
 
     /* ---- Menú centrado con indicador líquido (gooey). "Visítanos" es un link normal más ---- */
@@ -204,12 +205,12 @@
       .nav.scrolled .nav__brand{ position: static; transform: none; }
     }
 
-    /* ---- HERO: se mantiene el diseño original (fondo oscuro, orbs, foto) ---- */
-    /* Espacio extra abajo para que el indicador de scroll no choque con los botones */
-    .hero{ padding-bottom: 4rem !important; }
-    /* El indicador de scroll pasa a formar parte del flujo (ya no es absoluto),
-       así nunca queda encima de los botones sea cual sea la altura de pantalla */
-    .hero__scroll{ position: static !important; inset: auto !important; left: auto !important; bottom: auto !important; transform: none !important; display: flex !important; justify-content: center !important; margin: 1.3rem auto 0 !important; }
+    /* ---- HERO: se mantiene el fondo oscuro original. Layout en grid de 2 filas:
+       fila 1 (1fr) = contenido centrado; fila 2 (auto) = indicador de scroll pinneado
+       abajo. Así el mouse NUNCA se solapa con los botones ni se pega al borde. ---- */
+    .hero{ display: grid !important; grid-template-rows: 1fr auto; justify-items: center; padding: 6rem 1.5rem 2rem !important; }
+    .hero__content{ align-self: center; }
+    .hero__scroll{ position: static !important; inset: auto !important; transform: none !important; margin: 0 0 1.6rem !important; align-self: end; }
 
     /* ---- Fondos: todo claro, ritmo suave blanco / gris Apple ---- */
     .section--welcome{ background:var(--v2-bg) !important; }
@@ -528,10 +529,11 @@
         <a href="#horarios" class="btn btn--primary">Horarios de culto</a>
         <a href="#contacto" class="btn btn--ghost">Cómo llegar</a>
       </div>
-      <a href="#bienvenida" class="hero__scroll" aria-label="Bajar">
-        <span class="mouse"><span></span></span>
-      </a>
     </div>
+
+    <a href="#bienvenida" class="hero__scroll" aria-label="Bajar">
+      <span class="mouse"><span></span></span>
+    </a>
   </section>
 
   <!-- ============ BIENVENIDA ============ -->
