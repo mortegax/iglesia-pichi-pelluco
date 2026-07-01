@@ -171,10 +171,9 @@
     .nav.scrolled .nav__links a:hover{ opacity:1; }
     .nav.scrolled .nav__toggle span{ background:var(--v2-ink) !important; }
 
-    /* ---- Layout: solo el isotipo a la izquierda + menú perfectamente centrado ---- */
+    /* ---- Layout: menú perfectamente centrado, sin logo ni texto en la barra ---- */
     .nav__inner{ position: relative; justify-content: center; }
-    .nav__brand{ position: absolute; left: 0; top: 50%; transform: translateY(-50%); gap: 0; }
-    .nav__divider, .nav__brand-text{ display: none !important; }   /* se quita el texto: ya está en el hero */
+    .nav__brand{ display: none !important; }   /* se quita el isotipo superior izquierdo */
 
     /* ---- Menú centrado con indicador líquido (gooey). "Visítanos" es un link normal más ---- */
     .nav__links{ gap: 0.3rem; position: relative; }
@@ -207,7 +206,7 @@
     .hero{ padding-bottom: 4rem !important; }
     /* El indicador de scroll pasa a formar parte del flujo (ya no es absoluto),
        así nunca queda encima de los botones sea cual sea la altura de pantalla */
-    .hero__scroll{ position: static !important; inset: auto !important; left: auto !important; bottom: auto !important; transform: none !important; margin-top: 2.4rem !important; }
+    .hero__scroll{ position: static !important; inset: auto !important; left: auto !important; bottom: auto !important; transform: none !important; display: flex !important; justify-content: center !important; margin: 2.6rem auto 0 !important; }
 
     /* ---- Fondos: todo claro, ritmo suave blanco / gris Apple ---- */
     .section--welcome{ background:var(--v2-bg) !important; }
@@ -526,11 +525,10 @@
         <a href="#horarios" class="btn btn--primary">Horarios de culto</a>
         <a href="#contacto" class="btn btn--ghost">Cómo llegar</a>
       </div>
+      <a href="#bienvenida" class="hero__scroll" aria-label="Bajar">
+        <span class="mouse"><span></span></span>
+      </a>
     </div>
-
-    <a href="#bienvenida" class="hero__scroll" aria-label="Bajar">
-      <span class="mouse"><span></span></span>
-    </a>
   </section>
 
   <!-- ============ BIENVENIDA ============ -->
