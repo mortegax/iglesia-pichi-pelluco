@@ -172,13 +172,27 @@
     .nav.scrolled .nav__toggle span{ background:var(--v2-ink) !important; }
 
     /* ---- Espaciado: evitar que la marca choque con el primer link del menú ---- */
-    .nav__links{ gap: 1.4rem; }
-    .nav__links a{ font-size: 0.85rem; }
-    .nav__cta{ padding: 0.55rem 1.15rem !important; }
+    .nav__links{ gap: 0.3rem; position: relative; }
+    .nav__cta{ padding: 0.55rem 1.15rem !important; margin-left: 0.9rem; }
     @media (max-width: 1360px) {
       .nav__eyebrow--full{ display:none; }
       .nav__eyebrow--short{ display:inline; }
     }
+
+    /* ---- Menú: indicador líquido (gooey) que flota entre los links ---- */
+    .nav__links a:not(.nav__cta){ font-size: 0.85rem; padding: 0.5rem 0.9rem; border-radius: 100px; position: relative; z-index: 1; transition: color 0.35s var(--ease); }
+    .nav__links a:not(.nav__cta)::after{ display: none !important; }         /* quita el subrayado base */
+    .nav__links a:not(.nav__cta):hover{ color: #fff !important; opacity: 1 !important; }
+    .nav__goo{ position: absolute; inset: 0; z-index: 0; filter: url(#goo); pointer-events: none; }
+    .nav__blob{
+      position: absolute; top: 50%; left: 0; height: 36px; margin-top: -18px; width: 0;
+      border-radius: 100px; background: linear-gradient(90deg,#7f9dff,#c26bff); opacity: 0;
+      transition: transform 0.7s cubic-bezier(.22,1,.36,1), width 0.7s cubic-bezier(.22,1,.36,1), opacity 0.35s ease;
+    }
+    .nav__blob--trail{
+      transition: transform 1s cubic-bezier(.22,1,.36,1), width 1s cubic-bezier(.22,1,.36,1), opacity 0.5s ease;
+    }
+    @media (max-width: 900px){ .nav__goo{ display: none !important; } }
 
     /* ---- HERO: se mantiene el diseño original (fondo oscuro, orbs, foto) ---- */
     /* Espacio extra abajo para que el indicador de scroll no choque con los botones */
@@ -445,6 +459,9 @@
 </head>
 <body>
 
+
+  <!-- Filtro gooey para el indicador líquido del menú -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="6" result="b"/><feColorMatrix in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9" result="g"/><feComposite in="SourceGraphic" in2="g" operator="atop"/></filter></defs></svg>
 
   <!-- ============ NAVBAR ============ -->
   <header class="nav" id="nav">
@@ -1340,6 +1357,41 @@
       collapse(document.querySelector('.pastors__text'));
       collapse(document.querySelector('.vision__grid'));
       collapse(document.querySelector('.social__intro'));
+    })();
+  </script>
+  <script>
+    /* Menú: indicador líquido (gooey) que flota bajo el link con el mouse encima */
+    (function(){
+      var links = document.getElementById('navLinks');
+      if(!links) return;
+      var items = links.querySelectorAll('a:not(.nav__cta)');
+      if(!items.length) return;
+
+      var goo = document.createElement('span');
+      goo.className = 'nav__goo';
+      goo.setAttribute('aria-hidden', 'true');
+      var main = document.createElement('span'); main.className = 'nav__blob';
+      var trail = document.createElement('span'); trail.className = 'nav__blob nav__blob--trail';
+      goo.appendChild(trail); goo.appendChild(main);
+      links.insertBefore(goo, links.firstChild);
+
+      function moveTo(el){
+        var lr = links.getBoundingClientRect();
+        var r = el.getBoundingClientRect();
+        var x = r.left - lr.left;
+        [main, trail].forEach(function(b){
+          b.style.width = r.width + 'px';
+          b.style.transform = 'translateX(' + x + 'px)';
+          b.style.opacity = '1';
+        });
+      }
+      function hide(){ main.style.opacity = '0'; trail.style.opacity = '0'; }
+
+      items.forEach(function(a){
+        a.addEventListener('mouseenter', function(){ moveTo(a); });
+        a.addEventListener('focus', function(){ moveTo(a); });
+      });
+      links.addEventListener('mouseleave', hide);
     })();
   </script>
 </body>
