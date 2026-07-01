@@ -370,6 +370,41 @@
     @keyframes v2marquee{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
     @media(prefers-reduced-motion:reduce){ .section--social .social__marquee-track{ animation:none; } }
   </style>
+
+  <style id="v2-theme-5">
+    /* ---- Nuestros Pastores: más editorial + cita ---- */
+    .section--pastors{ background:var(--v2-soft) !important; }
+    .section--pastors .pastors__card{ width:min(400px,90vw) !important; }
+    .section--pastors .pastors__card img{ height:auto !important; aspect-ratio:4/5; object-fit:cover; }
+    .pastors__quote{ max-width:960px; margin:clamp(3rem,6vw,4.5rem) auto; text-align:center; border:none; padding:0;
+      font-family:var(--serif); font-weight:500; font-style:italic; letter-spacing:-.01em;
+      font-size:clamp(1.9rem,4.4vw,3.2rem); line-height:1.22; color:var(--v2-ink); }
+    .section--pastors .pastors__text{ max-width:760px; }
+
+    /* ---- Acción de Gracias: momento a pantalla completa ---- */
+    .section--thanks{ background:#0a0a0c !important; color:#fff !important; position:relative; overflow:hidden; }
+    .section--thanks::after{ content:""; position:absolute; inset:0; z-index:0;
+      background:url("assets/img/fotos/accion-gracias-cordero.jpg") center/cover no-repeat; opacity:.4; }
+    .section--thanks::before{ content:""; position:absolute; inset:0; z-index:0;
+      background:linear-gradient(180deg, rgba(0,0,0,.58), rgba(0,0,0,.5)); }
+    .section--thanks .container{ position:relative; z-index:1; }
+    .section--thanks .kicker{ color:rgba(255,255,255,.72) !important; }
+    .section--thanks .display{ color:#fff !important; }
+    .section--thanks .thanks__grid{ display:block !important; max-width:840px; }
+    .section--thanks .thanks__media{ display:none !important; }
+    .section--thanks .thanks__lead{ color:#fff !important; }
+    .section--thanks .thanks__text p{ color:rgba(255,255,255,.86) !important; }
+    .section--thanks .v2-readmore{ color:#fff !important; }
+
+    /* ---- Ministerios: números editoriales grandes ---- */
+    .section--ministries .ministries{ counter-reset:min; }
+    .section--ministries .ministry{ counter-increment:min; flex:0 0 min(88vw,360px) !important; padding:2.4rem !important; }
+    .section--ministries .ministry__icon{ display:none !important; }
+    .section--ministries .ministry h3{ font-size:1.5rem !important; letter-spacing:-.01em; }
+    .section--ministries .ministry h3::before{ content:counter(min,decimal-leading-zero); display:block;
+      font-family:var(--serif); font-weight:600; font-size:2.6rem; line-height:1; margin-bottom:.7rem;
+      color:var(--grad-c); }
+  </style>
 </head>
 <body>
 
@@ -543,6 +578,7 @@
           <figcaption>Pastora Irene de la Cruz Muñoz Correa</figcaption>
         </figure>
       </div>
+      <blockquote class="pastors__quote reveal">&laquo;El pastorado es un cargo de servicio, pero el due&ntilde;o de la iglesia es el Se&ntilde;or.&raquo;</blockquote>
       <div class="pastors__text reveal">
         <p class="pastors__lead">Nuestros pastores, Mario Ortega Olmedo e Irene Muñoz Correa, han dedicado gran parte de su vida al servicio del Señor y de la Iglesia Metodista Pentecostal de Chile en Pichi Pelluco.</p>
         <p>Antes de asumir el pastorado de nuestra congregación, sirvieron en distintas áreas de la obra: en la juventud, en el cuerpo de Oficiales, en las Dorcas, en el Estudio Bíblico, en los locales de la iglesia y también en el coro. Esa trayectoria de servicio les permitió conocer de cerca la vida de la congregación, sus necesidades, sus luchas y también la fe sencilla de los hermanos y hermanas que han formado parte de esta iglesia.</p>
