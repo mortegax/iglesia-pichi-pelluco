@@ -342,13 +342,36 @@
     .section--social .media-scroll::-webkit-scrollbar-thumb{ background:var(--v2-line) !important; }
     @media(max-width:620px){ .section--social .media-card{ flex:0 0 80vw !important; } }
   </style>
+
+  <style id="v2-theme-4">
+    .section--social .container{ max-width:none; }
+    .section--social .social__editorial{ max-width:1120px; margin:0 auto; }
+    .section--social .social__statement{ font-family:var(--sans) !important; font-weight:600 !important;
+      letter-spacing:-.025em; font-size:clamp(1.9rem,4.4vw,3.4rem) !important; line-height:1.14 !important;
+      color:var(--v2-ink) !important; max-width:24ch; margin:0 0 3.2rem !important; }
+    .section--social .social__cols{ columns:2; column-gap:3.5rem; }
+    .section--social .social__cols p{ color:var(--v2-muted) !important; font-size:1.05rem; line-height:1.62;
+      margin:0 0 1.2rem; break-inside:avoid; }
+    @media(max-width:760px){ .section--social .social__cols{ columns:1; } }
+    .section--social .social__platforms{ display:flex; gap:1rem; flex-wrap:wrap; margin-top:2.8rem; }
+    .section--social .social__pill{ display:inline-flex; align-items:center; gap:.7rem; padding:.9rem 1.7rem;
+      border:1px solid var(--v2-line); border-radius:100px; font-weight:600; color:var(--v2-ink);
+      transition:background .3s, color .3s, border-color .3s, transform .3s; }
+    .section--social .social__pill:hover{ background:var(--v2-ink); color:#fff; border-color:var(--v2-ink); transform:translateY(-2px); }
+    .section--social .social__pill-arrow{ transition:transform .3s; }
+    .section--social .social__pill:hover .social__pill-arrow{ transform:translate(3px,-3px); }
+    .section--social .social__marquee{ margin:clamp(4rem,8vw,7rem) 0 3rem; overflow:hidden;
+      border-top:1px solid var(--v2-line); border-bottom:1px solid var(--v2-line); padding:1.7rem 0; }
+    .section--social .social__marquee-track{ display:inline-flex; align-items:center; gap:1.6rem; white-space:nowrap;
+      animation:v2marquee 32s linear infinite; will-change:transform; }
+    .section--social .social__marquee-track span{ font-family:var(--sans); font-weight:700;
+      font-size:clamp(1.6rem,3.6vw,2.7rem); letter-spacing:-.02em; color:var(--v2-ink); }
+    .section--social .social__marquee-track i{ color:var(--grad-c); font-style:normal; font-size:1.2rem; }
+    @keyframes v2marquee{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+    @media(prefers-reduced-motion:reduce){ .section--social .social__marquee-track{ animation:none; } }
+  </style>
 </head>
 <body>
-  <!-- ===== v2: Intro a pantalla completa ===== -->
-  <div id="v2Intro" class="v2-intro" aria-hidden="true">
-    <video id="v2IntroVid" class="v2-intro__vid" src="assets/img/fotos/intro.mp4" autoplay muted playsinline preload="auto"></video>
-    <button id="v2IntroSkip" class="v2-intro__skip" type="button">Saltar &rsaquo;</button>
-  </div>
 
 
   <!-- ============ NAVBAR ============ -->
@@ -405,7 +428,6 @@
       <div class="hero__actions">
         <a href="#horarios" class="btn btn--primary">Horarios de culto</a>
         <a href="#contacto" class="btn btn--ghost">Cómo llegar</a>
-        <button type="button" class="btn btn--ghost hero__intro" id="introBtn" aria-label="Ver video de introducción">▶ Ver intro</button>
       </div>
     </div>
 
@@ -835,22 +857,30 @@
   <!-- ============ REDES SOCIALES ============ -->
   <section class="section section--social" id="redes">
     <div class="container">
-      <div class="section__head reveal">
-        <span class="kicker">Conéctate con nosotros</span>
-        <h2 class="display">Redes Sociales</h2>
-        <p class="lead lead--center">Las redes sociales han sido una herramienta importante para compartir la vida de nuestra iglesia y acercar nuestras actividades a la congregación y a la comunidad.</p>
+      <div class="section__head reveal" style="text-align:left;max-width:none;">
+        <span class="kicker">Conéctate</span>
+        <h2 class="display">La iglesia también<br />vive en pantalla</h2>
       </div>
 
-      <div class="social__intro reveal">
-        <p>A través de <strong>Facebook</strong> e <strong>Instagram</strong> hemos podido difundir cultos especiales, encuentros, visitas, actividades congregacionales y distintos momentos que forman parte de nuestra vida como iglesia. Estos espacios nos permiten mantener informada a la hermandad y también compartir con otros lo que el Señor nos permite vivir.</p>
-        <p>De manera especial, <strong>YouTube</strong> ha sido una herramienta de bendición para compartir actividades, alabanzas, reflexiones y mensajes de la Palabra de Dios. Durante la época de pandemia, cuando reunirnos presencialmente se volvió más difícil, hermanos de la congregación pusieron sus dones y conocimientos al servicio del Señor, permitiendo que el mensaje siguiera llegando a los hogares.</p>
-        <p>Hoy seguimos valorando estos medios como una forma de comunicar, acompañar y evangelizar, entendiendo que también a través de ellos podemos compartir la fe, fortalecer la comunión y anunciar el mensaje de Jesucristo.</p>
+      <div class="social__editorial reveal">
+        <p class="social__statement">Las redes han sido una <span class="grad-text">herramienta de bendición</span> para compartir la vida de nuestra iglesia y llevar la Palabra a cada hogar.</p>
+        <div class="social__cols">
+          <p>Las redes sociales han sido una herramienta importante para compartir la vida de nuestra iglesia y acercar nuestras actividades a la congregación y a la comunidad.</p>
+          <p>A través de <strong>Facebook</strong> e <strong>Instagram</strong> hemos podido difundir cultos especiales, encuentros, visitas, actividades congregacionales y distintos momentos que forman parte de nuestra vida como iglesia. Estos espacios nos permiten mantener informada a la hermandad y también compartir con otros lo que el Señor nos permite vivir.</p>
+          <p>De manera especial, <strong>YouTube</strong> ha sido una herramienta de bendición para compartir actividades, alabanzas, reflexiones y mensajes de la Palabra de Dios. Durante la época de pandemia, cuando reunirnos presencialmente se volvió más difícil, hermanos de la congregación pusieron sus dones y conocimientos al servicio del Señor, permitiendo que el mensaje siguiera llegando a los hogares.</p>
+          <p>Hoy seguimos valorando estos medios como una forma de comunicar, acompañar y evangelizar, entendiendo que también a través de ellos podemos compartir la fe, fortalecer la comunión y anunciar el mensaje de Jesucristo.</p>
+        </div>
+        <div class="social__platforms">
+          <a class="social__pill" href="https://www.facebook.com/IMPPICHIPELLUCO/" target="_blank" rel="noopener"><span>Facebook</span><span class="social__pill-arrow">&#8599;</span></a>
+          <a class="social__pill" href="https://www.instagram.com/pichipellucoimp" target="_blank" rel="noopener"><span>Instagram</span><span class="social__pill-arrow">&#8599;</span></a>
+          <a class="social__pill" href="https://www.youtube.com/channel/UCFGY7mkzu0IeaRmjsbnQtlA" target="_blank" rel="noopener"><span>YouTube</span><span class="social__pill-arrow">&#8599;</span></a>
+        </div>
       </div>
 
-      <div class="social__cta reveal">
-        <a href="https://www.facebook.com/IMPPICHIPELLUCO/" target="_blank" rel="noopener">Facebook</a>
-        <a href="https://www.instagram.com/pichipellucoimp" target="_blank" rel="noopener">Instagram</a>
-        <a href="https://www.youtube.com/channel/UCFGY7mkzu0IeaRmjsbnQtlA" target="_blank" rel="noopener">YouTube</a>
+      <div class="social__marquee reveal" aria-hidden="true">
+        <div class="social__marquee-track">
+          <span>Predicaciones</span><i>&#10022;</i><span>Alabanzas</span><i>&#10022;</i><span>Cultos</span><i>&#10022;</i><span>Reflexiones</span><i>&#10022;</i><span>Coro</span><i>&#10022;</i><span>Juventud</span><i>&#10022;</i><span>Escuela Dominical</span><i>&#10022;</i><span>Predicaciones</span><i>&#10022;</i><span>Alabanzas</span><i>&#10022;</i><span>Cultos</span><i>&#10022;</i><span>Reflexiones</span><i>&#10022;</i><span>Coro</span><i>&#10022;</i><span>Juventud</span><i>&#10022;</i><span>Escuela Dominical</span><i>&#10022;</i>
+        </div>
       </div>
 
       <div class="media-row reveal">
