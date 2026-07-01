@@ -171,18 +171,20 @@
     .nav.scrolled .nav__links a:hover{ opacity:1; }
     .nav.scrolled .nav__toggle span{ background:var(--v2-ink) !important; }
 
-    /* ---- Espaciado: evitar que la marca choque con el primer link del menú ---- */
-    .nav__links{ gap: 0.3rem; position: relative; }
-    .nav__cta{ padding: 0.55rem 1.15rem !important; margin-left: 0.9rem; }
-    @media (max-width: 1360px) {
-      .nav__eyebrow--full{ display:none; }
-      .nav__eyebrow--short{ display:inline; }
-    }
+    /* ---- Layout: solo el isotipo a la izquierda + menú perfectamente centrado ---- */
+    .nav__inner{ position: relative; justify-content: center; }
+    .nav__brand{ position: absolute; left: 0; top: 50%; transform: translateY(-50%); gap: 0; }
+    .nav__divider, .nav__brand-text{ display: none !important; }   /* se quita el texto: ya está en el hero */
 
-    /* ---- Menú: indicador líquido (gooey) que flota entre los links ---- */
-    .nav__links a:not(.nav__cta){ font-size: 0.85rem; padding: 0.5rem 0.9rem; border-radius: 100px; position: relative; z-index: 1; transition: color 0.35s var(--ease); }
-    .nav__links a:not(.nav__cta)::after{ display: none !important; }         /* quita el subrayado base */
-    .nav__links a:not(.nav__cta):hover{ color: #fff !important; opacity: 1 !important; }
+    /* ---- Menú centrado con indicador líquido (gooey). "Visítanos" es un link normal más ---- */
+    .nav__links{ gap: 0.3rem; position: relative; }
+    .nav__links a{ font-size: 0.85rem; font-weight: 500; padding: 0.5rem 0.9rem; border-radius: 100px; position: relative; z-index: 1; transition: color 0.35s var(--ease); }
+    .nav__links a::after{ display: none !important; }              /* quita el subrayado base */
+    .nav__links a:hover, .nav.scrolled .nav__links a:hover{ color: #fff !important; opacity: 1 !important; }
+    /* "Visítanos" pierde la píldora por defecto y se ve igual que los demás */
+    .nav__cta{ background: none !important; box-shadow: none !important; padding: 0.5rem 0.9rem !important; margin-left: 0 !important; font-weight: 500 !important; color: rgba(255,255,255,0.85) !important; transform: none !important; }
+    .nav.scrolled .nav__cta{ color: var(--v2-ink) !important; }
+
     .nav__goo{ position: absolute; inset: 0; z-index: 0; filter: url(#goo); pointer-events: none; }
     .nav__blob{
       position: absolute; top: 50%; left: 0; height: 36px; margin-top: -18px; width: 0;
@@ -193,6 +195,12 @@
       transition: transform 1s cubic-bezier(.22,1,.36,1), width 1s cubic-bezier(.22,1,.36,1), opacity 0.5s ease;
     }
     @media (max-width: 900px){ .nav__goo{ display: none !important; } }
+
+    /* En móvil vuelve el layout clásico: isotipo a la izquierda, hamburguesa a la derecha */
+    @media (max-width: 900px){
+      .nav__inner{ justify-content: space-between; }
+      .nav__brand{ position: static; transform: none; }
+    }
 
     /* ---- HERO: se mantiene el diseño original (fondo oscuro, orbs, foto) ---- */
     /* Espacio extra abajo para que el indicador de scroll no choque con los botones */
@@ -1364,7 +1372,7 @@
     (function(){
       var links = document.getElementById('navLinks');
       if(!links) return;
-      var items = links.querySelectorAll('a:not(.nav__cta)');
+      var items = links.querySelectorAll('a');
       if(!items.length) return;
 
       var goo = document.createElement('span');
