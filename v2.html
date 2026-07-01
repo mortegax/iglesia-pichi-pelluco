@@ -171,9 +171,11 @@
     .nav.scrolled .nav__links a:hover{ opacity:1; }
     .nav.scrolled .nav__toggle span{ background:var(--v2-ink) !important; }
 
-    /* ---- Layout: menú perfectamente centrado, sin logo ni texto en la barra ---- */
+    /* ---- Layout: menú centrado. La marca aparece SOLO al hacer scroll ---- */
     .nav__inner{ position: relative; justify-content: center; }
-    .nav__brand{ display: none !important; }   /* se quita el isotipo superior izquierdo */
+    .nav__brand{ display: none !important; }   /* oculta al abrir (sobre el hero) */
+    /* Al bajar y cambiar la barra a claro, reaparece la marca (isotipo a color) a la izquierda */
+    .nav.scrolled .nav__brand{ display: flex !important; position: absolute; left: 0; top: 50%; transform: translateY(-50%); }
 
     /* ---- Menú centrado con indicador líquido (gooey). "Visítanos" es un link normal más ---- */
     .nav__links{ gap: 0.3rem; position: relative; }
@@ -195,10 +197,11 @@
     }
     @media (max-width: 900px){ .nav__goo{ display: none !important; } }
 
-    /* En móvil vuelve el layout clásico: isotipo a la izquierda, hamburguesa a la derecha */
+    /* En móvil: hamburguesa siempre a la derecha; la marca (al bajar) va a la izquierda en flujo */
     @media (max-width: 900px){
       .nav__inner{ justify-content: space-between; }
-      .nav__brand{ position: static; transform: none; }
+      .nav__toggle{ margin-left: auto; }
+      .nav.scrolled .nav__brand{ position: static; transform: none; }
     }
 
     /* ---- HERO: se mantiene el diseño original (fondo oscuro, orbs, foto) ---- */
@@ -206,7 +209,7 @@
     .hero{ padding-bottom: 4rem !important; }
     /* El indicador de scroll pasa a formar parte del flujo (ya no es absoluto),
        así nunca queda encima de los botones sea cual sea la altura de pantalla */
-    .hero__scroll{ position: static !important; inset: auto !important; left: auto !important; bottom: auto !important; transform: none !important; display: flex !important; justify-content: center !important; margin: 2.6rem auto 0 !important; }
+    .hero__scroll{ position: static !important; inset: auto !important; left: auto !important; bottom: auto !important; transform: none !important; display: flex !important; justify-content: center !important; margin: 1.3rem auto 0 !important; }
 
     /* ---- Fondos: todo claro, ritmo suave blanco / gris Apple ---- */
     .section--welcome{ background:var(--v2-bg) !important; }
