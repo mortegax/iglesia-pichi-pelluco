@@ -122,8 +122,152 @@
     /* Reproductor de video local (intro) */
     .video-modal__frame video { width: 100%; height: 100%; display: block; background: #000; }
   </style>
+
+  <!-- ============================================================
+       TEMA v2 — Minimal claro (estilo Apple). Solo afecta a v2.html
+       ============================================================ -->
+  <style id="v2-theme">
+    :root{
+      --v2-bg:#ffffff; --v2-soft:#f5f5f7; --v2-ink:#111114; --v2-ink-2:#1d1d1f;
+      --v2-muted:#6e6e73; --v2-line:rgba(0,0,0,.10); --v2-line-2:rgba(0,0,0,.06);
+    }
+    html{ scroll-behavior:smooth; }
+    body{ background:var(--v2-bg); color:var(--v2-ink); -webkit-font-smoothing:antialiased; }
+
+    /* ---- Intro overlay ---- */
+    .v2-intro{ position:fixed; inset:0; z-index:9999; background:#fff; display:flex; align-items:center; justify-content:center;
+      transition:opacity .9s ease, visibility .9s ease; }
+    .v2-intro.hide{ opacity:0; visibility:hidden; pointer-events:none; }
+    .v2-intro__vid{ width:min(90vw,1100px); height:auto; max-height:82vh; object-fit:contain; }
+    .v2-intro__skip{ position:absolute; bottom:2rem; right:2rem; background:none; border:1px solid var(--v2-line);
+      color:var(--v2-muted); font:600 .9rem/1 var(--sans); letter-spacing:.02em; padding:.7rem 1.3rem; border-radius:100px; cursor:pointer;
+      transition:background .3s, color .3s; }
+    .v2-intro__skip:hover{ background:var(--v2-ink); color:#fff; border-color:var(--v2-ink); }
+
+    /* ---- Aire y tipografía protagonista ---- */
+    .section{ padding: clamp(6rem, 12vw, 11rem) 0 !important; }
+    .container{ width:min(1120px, 90vw); }
+    .section__head{ max-width:900px; margin-bottom: clamp(3rem,6vw,5rem); }
+    .display{ color:var(--v2-ink) !important; font-weight:700 !important; letter-spacing:-.035em !important;
+      font-size:clamp(2.7rem, 7.5vw, 5.6rem) !important; line-height:1.02 !important; }
+    .display--light{ color:var(--v2-ink) !important; }
+    .kicker{ color:var(--v2-muted) !important; letter-spacing:.24em; font-weight:600; padding-left:0; }
+    .kicker::before{ display:none; }
+    .kicker--light{ color:var(--v2-muted) !important; }
+    .lead{ color:var(--v2-muted) !important; font-family:var(--sans) !important; font-weight:400;
+      font-size:clamp(1.2rem, 1.9vw, 1.6rem) !important; line-height:1.5; letter-spacing:-.01em; }
+
+    /* ---- Navbar minimal claro ---- */
+    .nav{ background:rgba(255,255,255,.72); backdrop-filter:saturate(180%) blur(20px); box-shadow:0 1px 0 var(--v2-line-2); padding:.7rem 0; }
+    .nav.scrolled{ background:rgba(255,255,255,.82); }
+    .nav__iso--white{ display:none !important; } .nav.scrolled .nav__iso--color, .nav__iso--color{ display:block !important; }
+    .nav__divider{ background:var(--v2-line) !important; }
+    .nav__eyebrow, .nav.scrolled .nav__eyebrow{ color:var(--v2-muted) !important; }
+    .nav__wordmark, .nav.scrolled .nav__wordmark{ color:var(--v2-ink) !important; }
+    .nav__links a, .nav.scrolled .nav__links a{ color:var(--v2-ink) !important; font-weight:500; opacity:.75; }
+    .nav__links a:hover{ opacity:1; }
+    .nav__toggle span, .nav.scrolled .nav__toggle span{ background:var(--v2-ink) !important; }
+
+    /* ---- HERO claro, tipografía enorme ---- */
+    .hero{ background:linear-gradient(180deg,#ffffff 0%, #f5f5f7 100%) !important; color:var(--v2-ink) !important; min-height:100svh; }
+    .hero .orb, .hero__grid{ display:none !important; }
+    .hero__photo{ opacity:.06 !important; filter:grayscale(.2); }
+    .hero__logo{ filter:none !important; height:clamp(84px,10vw,120px) !important; }
+    .hero__eyebrow{ color:var(--v2-muted) !important; }
+    .hero__title{ color:var(--v2-ink) !important; font-size:clamp(3.4rem, 13vw, 9rem) !important; letter-spacing:-.04em !important; }
+    .hero__tagline{ color:var(--v2-ink) !important; }
+    .hero__sub{ color:var(--v2-muted) !important; }
+    .mouse{ border-color:var(--v2-line) !important; } .mouse span{ background:var(--v2-muted) !important; }
+    .btn--ghost{ background:transparent !important; color:var(--v2-ink) !important; border:1px solid var(--v2-line) !important; backdrop-filter:none !important; }
+    .btn--ghost:hover{ background:var(--v2-ink) !important; color:#fff !important; }
+
+    /* ---- Fondos: todo claro, ritmo suave blanco / gris Apple ---- */
+    .section--welcome{ background:var(--v2-bg) !important; }
+    .section--history{ background:var(--v2-soft) !important; }
+    .section--pastors{ background:var(--v2-bg) !important; }
+    .section--schedule{ background:var(--v2-soft) !important; }
+    .section--thanks{ background:var(--v2-bg) !important; }
+    .section--agenda{ background:var(--v2-soft) !important; }
+    .section--ministries{ background:var(--v2-bg) !important; }
+    .section--gallery{ background:var(--v2-soft) !important; }
+    .section--social{ background:var(--v2-bg) !important; }
+    .section--contact{ background:var(--v2-soft) !important; }
+
+    /* ---- VISIÓN: el momento cinematográfico (full-bleed foto) ---- */
+    .section--vision{ background:#000 !important; color:#fff !important; overflow:hidden; }
+    .section--vision::after{ content:""; position:absolute; inset:0; z-index:0;
+      background:url("assets/img/fotos/culto-general-1.jpg") center/cover no-repeat; opacity:.5; }
+    .section--vision::before{ content:""; position:absolute; inset:0; z-index:0; background:linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.35)); }
+    .section--vision .vision__bg{ display:none !important; }
+    .section--vision .container{ position:relative; z-index:1; }
+    .section--vision .kicker--light{ color:rgba(255,255,255,.75) !important; }
+    .section--vision .display--light{ color:#fff !important; }
+    .section--vision .vision__lead{ color:#fff !important; }
+    .section--vision .vision__body{ color:rgba(255,255,255,.82) !important; }
+    .section--vision .pastor{ border-color:rgba(255,255,255,.2) !important; }
+    .section--vision .pastor blockquote{ color:#fff !important; }
+    .section--vision .pastor__name{ color:#fff !important; }
+    .section--vision .pastor__role{ color:rgba(255,255,255,.7) !important; }
+
+    /* ---- FE claro ---- */
+    .section--faith{ background:var(--v2-soft) !important; color:var(--v2-ink) !important; }
+    .section--faith::before{ display:none !important; }
+    .section--faith .kicker--light{ color:var(--v2-muted) !important; }
+    .section--faith .display--light{ color:var(--v2-ink) !important; }
+    .beliefs li{ background:#fff !important; border:1px solid var(--v2-line) !important; }
+    .beliefs p{ color:var(--v2-muted) !important; } .beliefs strong{ color:var(--v2-ink) !important; }
+
+    /* ---- Tarjetas minimal (hairline, sin sombras pesadas) ---- */
+    .schedule__item, .ministry, .locale, .pastors__card, .media-card, .album-card, .agenda__frame,
+    .contact__map, .thanks__media img, .history__photo, .history__quote{
+      box-shadow:none !important; border:1px solid var(--v2-line) !important; border-radius:18px !important;
+    }
+    .ministry::after{ display:none !important; }
+    .schedule__item{ background:#fff !important; }
+    .schedule__item--feature{ background:var(--v2-ink) !important; border:none !important; }
+    .schedule__day{ color:var(--v2-muted) !important; } .schedule__item--feature .schedule__day{ color:rgba(255,255,255,.7) !important; }
+    .schedule__name{ color:var(--v2-ink) !important; } .schedule__time{ color:var(--v2-ink) !important; }
+    .schedule__rest{ color:var(--v2-muted) !important; }
+    .locale{ background:#fff !important; } .locale__name{ color:var(--v2-ink) !important; }
+    .ministry h3{ color:var(--v2-ink) !important; } .ministry p{ color:var(--v2-muted) !important; }
+    .ministry__icon{ box-shadow:none !important; }
+    .history__text p{ color:var(--v2-muted) !important; } .history__text strong{ color:var(--v2-ink) !important; }
+    .history__quote p{ color:var(--v2-ink) !important; } .history__badge{ box-shadow:none !important; }
+    .pastors__card figcaption{ color:var(--v2-ink) !important; }
+    .thanks__text p{ color:var(--v2-muted) !important; } .thanks__lead{ color:var(--v2-ink) !important; }
+    .media-card__title{ color:var(--v2-ink) !important; }
+    .contact__value, .contact__list a{ color:var(--v2-ink) !important; }
+    .contact__label{ color:var(--v2-muted) !important; }
+    .contact__socials a{ border-color:var(--v2-line) !important; color:var(--v2-ink) !important; }
+
+    /* ---- Footer claro ---- */
+    .footer{ background:var(--v2-bg) !important; color:var(--v2-muted) !important; border-top:1px solid var(--v2-line); }
+    .footer__verse{ color:var(--v2-ink) !important; }
+    .footer__copy, .footer__affiliation span{ color:var(--v2-muted) !important; }
+    .footer__logo{ filter:invert(1) brightness(.15); }
+
+    /* ---- Revelación por capas (Leer más) ---- */
+    .v2-more{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .55s var(--ease); }
+    .v2-more > div{ overflow:hidden; }
+    .v2-more.open{ grid-template-rows:1fr; }
+    .v2-more.open > div{ padding-top:.2rem; }
+    .v2-readmore{ margin-top:1.2rem; background:none; border:none; cursor:pointer; padding:0;
+      font:700 .95rem/1 var(--sans); color:var(--purple); display:inline-flex; align-items:center; gap:.45rem; letter-spacing:.01em; }
+    .v2-readmore::after{ content:"+"; font-size:1.1rem; transition:transform .3s; }
+    .v2-readmore.open::after{ content:"\2013"; }
+
+    /* ---- Entradas al hacer scroll (refinadas) ---- */
+    .reveal{ transform:translateY(42px); }
+    @media (prefers-reduced-motion: reduce){ .v2-intro{ display:none !important; } }
+  </style>
 </head>
 <body>
+  <!-- ===== v2: Intro a pantalla completa ===== -->
+  <div id="v2Intro" class="v2-intro" aria-hidden="true">
+    <video id="v2IntroVid" class="v2-intro__vid" src="assets/img/fotos/intro.mp4" autoplay muted playsinline preload="auto"></video>
+    <button id="v2IntroSkip" class="v2-intro__skip" type="button">Saltar &rsaquo;</button>
+  </div>
+
 
   <!-- ============ NAVBAR ============ -->
   <header class="nav" id="nav">
@@ -966,6 +1110,49 @@
       close.addEventListener('click',closeM);
       modal.addEventListener('click',function(e){ if(e.target===modal) closeM(); });
       document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&modal.classList.contains('open')) closeM(); });
+    })();
+  </script>
+  <script>
+    /* Intro overlay: reproduce una vez por sesión y se desvanece */
+    (function(){
+      var ov=document.getElementById('v2Intro'); if(!ov) return;
+      var vid=document.getElementById('v2IntroVid'), skip=document.getElementById('v2IntroSkip');
+      function done(){ ov.classList.add('hide'); try{ sessionStorage.setItem('v2introSeen','1'); }catch(e){} setTimeout(function(){ ov.style.display='none'; }, 950); }
+      var seen=false; try{ seen = sessionStorage.getItem('v2introSeen')==='1'; }catch(e){}
+      if(seen){ ov.style.display='none'; }
+      else{
+        document.documentElement.style.overflow='hidden';
+        var release=function(){ document.documentElement.style.overflow=''; };
+        vid && vid.addEventListener('ended', function(){ release(); done(); });
+        skip && skip.addEventListener('click', function(){ release(); done(); });
+        setTimeout(function(){ release(); done(); }, 9000);
+        vid && vid.play && vid.play().catch(function(){});
+      }
+    })();
+
+    /* Revelación por capas: colapsa el texto largo tras el primer párrafo */
+    (function(){
+      function collapse(container){
+        if(!container) return;
+        var ps=Array.prototype.filter.call(container.children, function(el){ return el.tagName==='P'; });
+        if(ps.length<2) return;
+        var rest=ps.slice(1);
+        var wrap=document.createElement('div'); wrap.className='v2-more';
+        var inner=document.createElement('div');
+        rest.forEach(function(p){ inner.appendChild(p); });
+        wrap.appendChild(inner);
+        container.insertBefore(wrap, null);
+        var btn=document.createElement('button'); btn.type='button'; btn.className='v2-readmore'; btn.textContent='Leer más';
+        container.appendChild(btn);
+        btn.addEventListener('click', function(){
+          var open=wrap.classList.toggle('open'); btn.classList.toggle('open', open);
+          btn.textContent = open ? 'Leer menos' : 'Leer más';
+        });
+      }
+      collapse(document.querySelector('.history__text'));
+      collapse(document.querySelector('.thanks__text'));
+      collapse(document.querySelector('.pastors__text'));
+      collapse(document.querySelector('.vision__grid'));
     })();
   </script>
 </body>
