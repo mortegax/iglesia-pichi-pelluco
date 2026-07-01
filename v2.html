@@ -182,8 +182,10 @@
 
     /* ---- HERO: se mantiene el diseño original (fondo oscuro, orbs, foto) ---- */
     /* Espacio extra abajo para que el indicador de scroll no choque con los botones */
-    .hero{ padding-bottom: 7.5rem !important; }
-    .hero__scroll{ bottom: 1.4rem !important; }
+    .hero{ padding-bottom: 4rem !important; }
+    /* El indicador de scroll pasa a formar parte del flujo (ya no es absoluto),
+       así nunca queda encima de los botones sea cual sea la altura de pantalla */
+    .hero__scroll{ position: static !important; inset: auto !important; left: auto !important; bottom: auto !important; transform: none !important; margin-top: 2.4rem !important; }
 
     /* ---- Fondos: todo claro, ritmo suave blanco / gris Apple ---- */
     .section--welcome{ background:var(--v2-bg) !important; }
