@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pichi Pelluco · versión nueva (v2)</title>
+  <meta name="description" content="Iglesia Metodista Pentecostal de Chile, Población Pichi Pelluco, Puerto Montt. Un lugar de fe, restauración y esperanza. Libertad y Adoración." />
+  <meta name="theme-color" content="#000F5F" />
+  <link rel="icon" type="image/svg+xml" href="assets/img/isotipo.svg" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Iglesia Metodista Pentecostal de Chile · Pichi Pelluco" />
+  <meta property="og:description" content="Un espacio de fe, restauración y esperanza. Libertad y Adoración." />
+  <meta property="og:type" content="website" />
+
+  <!-- Fonts (Montserrat — coincide con el logo) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <!-- Ajuste: horarios agrupados por día (una tarjeta por día) -->
+  <style>
+    .schedule { align-items: start; }
+    .schedule__activities { display: flex; flex-direction: column; gap: 0.85rem; margin-top: 0.6rem; }
+    .schedule__activities li { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding-bottom: 0.85rem; border-bottom: 1px solid var(--line); }
+    .schedule__activities li:last-child { padding-bottom: 0; border-bottom: none; }
+    .schedule__activities .schedule__name { font-size: 1.02rem; }
+    .schedule__activities .schedule__time { font-size: 1.5rem; margin-top: 0; white-space: nowrap; }
+    .schedule__rest { margin-top: 0.6rem; color: var(--muted); font-style: italic; }
+    .schedule__item--feature .schedule__activities li { border-bottom-color: rgba(255,255,255,0.20); }
+
+    /* Redes Sociales + carruseles de video */
+    .section--social { background: var(--paper-2); }
+    .social__intro { max-width: 820px; margin: 0 auto; }
+    .social__intro p { color: var(--muted); margin-bottom: 1.1rem; text-align: center; }
+    .social__cta { display: flex; gap: 0.8rem; flex-wrap: wrap; justify-content: center; margin: 1.4rem 0 0.5rem; }
+    .social__cta a { font-size: 0.9rem; font-weight: 600; padding: 0.55rem 1.3rem; border-radius: 100px; border: 1.5px solid var(--line); color: var(--ink); transition: all 0.3s var(--ease); }
+    .social__cta a:hover { border-color: transparent; background: var(--grad-brand); color: #fff; transform: translateY(-2px); }
+    .media-row { margin-top: 2.8rem; }
+    .media-row__title { font-family: var(--serif); font-size: clamp(1.5rem,3vw,1.9rem); color: var(--navy); }
+    .media-row__sub { color: var(--muted); font-size: 0.95rem; margin-bottom: 1.1rem; }
+    .media-scroll { display: flex; gap: 1rem; overflow-x: auto; padding: 0.25rem 0.25rem 1.2rem; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: var(--grad-b) transparent; }
+    .media-scroll::-webkit-scrollbar { height: 8px; }
+    .media-scroll::-webkit-scrollbar-thumb { background: var(--line); border-radius: 100px; }
+    .media-scroll::-webkit-scrollbar-thumb:hover { background: var(--grad-b); }
+    .media-card { flex: 0 0 280px; scroll-snap-align: start; border: none; padding: 0; cursor: pointer; background: #fff; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-sm); text-align: left; font-family: var(--sans); transition: transform 0.4s var(--ease), box-shadow 0.4s; }
+    .media-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); }
+    .media-card__thumb { position: relative; display: block; background: var(--navy-deep); aspect-ratio: 16/9; }
+    .media-card__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .media-card__play { position: absolute; inset: 0; display: grid; place-items: center; }
+    .media-card__play svg { filter: drop-shadow(0 4px 12px rgba(0,0,0,0.45)); opacity: 0.92; transition: transform 0.3s var(--ease); }
+    .media-card:hover .media-card__play svg { transform: scale(1.12); }
+    .media-card__title { display: block; padding: 0.85rem 1rem 1.05rem; font-size: 0.94rem; font-weight: 600; color: var(--navy); line-height: 1.35; }
+    .video-modal { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; background: rgba(4,6,24,0.92); backdrop-filter: blur(8px); opacity: 0; visibility: hidden; transition: opacity 0.35s var(--ease), visibility 0.35s; padding: 4rem 1.5rem; }
+    .video-modal.open { opacity: 1; visibility: visible; }
+    .video-modal__frame { width: min(900px, 92vw); aspect-ratio: 16/9; border-radius: 14px; overflow: hidden; background: #000; box-shadow: 0 30px 80px rgba(0,0,0,0.6); }
+    .video-modal__frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+    .video-modal__close { position: absolute; top: 1.4rem; right: 1.6rem; background: none; border: none; color: #fff; font-size: 2.6rem; line-height: 1; cursor: pointer; opacity: 0.85; transition: opacity 0.3s; }
+    .video-modal__close:hover { opacity: 1; }
+    .vision__lead { font-family: var(--sans); }
+
+    /* Emblema oficial IMPCh (secundario) */
+    .footer__affiliation { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; margin-top: 0.2rem; }
+    .footer__emblem { height: 58px; width: auto; opacity: 0.95; }
+    .footer__affiliation span { font-size: 0.74rem; letter-spacing: 0.04em; color: rgba(255,255,255,0.5); }
+    .faith__emblem { height: 76px; width: auto; display: block; margin: 1.2rem auto 0; opacity: 0.95; }
+    /* Galería por carpetas (álbumes) */
+    .albums { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 220px; gap: 1rem; }
+    .album-card { position: relative; border: none; padding: 0; cursor: pointer; border-radius: 18px; overflow: hidden; box-shadow: var(--shadow-sm); background: var(--navy-deep); font-family: var(--sans); }
+    .album-card--wide { grid-column: span 2; }
+    .album-card > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.7s var(--ease); filter: saturate(1.02); }
+    .album-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(6,10,46,0.78) 0%, transparent 58%); transition: opacity 0.4s; }
+    .album-card:hover > img { transform: scale(1.07); }
+    .album-card__badge { position: absolute; top: 0.7rem; right: 0.7rem; z-index: 2; background: rgba(6,10,46,0.65); color: #fff; font-size: 0.72rem; font-weight: 600; padding: 0.25rem 0.65rem; border-radius: 100px; backdrop-filter: blur(4px); }
+    .album-card__label { position: absolute; left: 0; bottom: 0; z-index: 2; padding: 1rem 1.2rem; color: #fff; font-weight: 700; font-size: 1.05rem; }
+    @media (max-width: 760px) { .albums { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 150px; } .album-card--wide { grid-column: span 2; } }
+    .album-lightbox { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; background: rgba(4,6,24,0.92); backdrop-filter: blur(8px); opacity: 0; visibility: hidden; transition: opacity 0.35s var(--ease), visibility 0.35s; padding: 4rem 1.5rem; }
+    .album-lightbox.open { opacity: 1; visibility: visible; }
+    .album-lightbox__stage { margin: 0; max-width: min(900px, 92vw); text-align: center; }
+    .album-lightbox__stage img { max-width: 100%; max-height: 78vh; border-radius: 14px; box-shadow: 0 30px 80px rgba(0,0,0,0.6); }
+    .album-lightbox__stage figcaption { color: #fff; margin-top: 1rem; font-weight: 500; letter-spacing: 0.02em; }
+    .album-lightbox__close { position: absolute; top: 1.4rem; right: 1.6rem; background: none; border: none; color: #fff; font-size: 2.6rem; line-height: 1; cursor: pointer; opacity: 0.85; }
+    .album-lightbox__nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 52px; height: 52px; border-radius: 50%; font-size: 1.8rem; cursor: pointer; display: grid; place-items: center; }
+    .album-lightbox__prev { left: 1.2rem; } .album-lightbox__next { right: 1.2rem; }
+    @media (max-width: 560px) { .album-lightbox__nav { width: 42px; height: 42px; font-size: 1.4rem; } }
+
+    /* Agenda (Google Calendar) */
+    .section--agenda { background: var(--paper-2); }
+    .agenda { max-width: 900px; margin: 0 auto; }
+    .agenda__frame { position: relative; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-md); background: #fff; height: 600px; }
+    .agenda__frame::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--grad-brand); z-index: 2; }
+    .agenda__frame iframe { width: 100%; height: 664px; display: block; border: 0; background: #fff; }
+    .agenda__hint { text-align: center; margin-top: 1.3rem; }
+    .agenda__hint a { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--purple); font-weight: 600; }
+    .agenda__hint a:hover { color: var(--navy); }
+    @media (max-width: 600px) { .agenda__frame { height: 480px; } .agenda__frame iframe { height: 544px; } }
+
+    /* Nuestros Pastores */
+    .section--pastors { background: var(--paper); }
+    .pastors__duo { display: flex; gap: 1.6rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.6rem; }
+    .pastors__card { width: min(340px, 90vw); margin: 0; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform 0.4s var(--ease), box-shadow 0.4s; }
+    .pastors__card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+    .pastors__card img { width: 100%; height: 300px; object-fit: cover; object-position: center 20%; display: block; }
+    .pastors__card figcaption { padding: 1rem 1.2rem; text-align: center; font-weight: 600; color: var(--navy); }
+    .pastors__text { max-width: 760px; margin: 0 auto; }
+    .pastors__text p { color: var(--muted); margin-bottom: 1.1rem; }
+    .pastors__text p:last-child { margin-bottom: 0; }
+    .pastors__lead { font-family: var(--serif); font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.5; color: var(--navy) !important; }
+
+    /* Acción de Gracias */
+    .section--thanks { background: var(--paper-2); }
+    .thanks__grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+    .thanks__media { margin: 0; }
+    .thanks__media img { width: 100%; border-radius: var(--radius); box-shadow: var(--shadow-md); display: block; }
+    .thanks__media figcaption { margin-top: 0.8rem; font-size: 0.9rem; color: var(--muted); text-align: center; font-style: italic; }
+    .thanks__text p { color: var(--muted); margin-bottom: 1.1rem; }
+    .thanks__text p:last-child { margin-bottom: 0; }
+    .thanks__lead { font-family: var(--serif); font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.5; color: var(--navy) !important; }
+    @media (max-width: 860px) { .thanks__grid { grid-template-columns: 1fr; } }
+    /* Reproductor de video local (intro) */
+    .video-modal__frame video { width: 100%; height: 100%; display: block; background: #000; }
+  </style>
+</head>
+<body>
+
+  <!-- ============ NAVBAR ============ -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#inicio" class="nav__brand" aria-label="Inicio — Iglesia Metodista Pentecostal Pichi Pelluco">
+        <img src="assets/img/isotipo-white.svg" alt="" class="nav__iso nav__iso--white" />
+        <img src="assets/img/isotipo.svg" alt="" class="nav__iso nav__iso--color" />
+        <span class="nav__divider" aria-hidden="true"></span>
+        <span class="nav__brand-text">
+          <span class="nav__eyebrow">
+            <span class="nav__eyebrow--full">Iglesia Metodista Pentecostal</span>
+            <span class="nav__eyebrow--short">IMPCh</span>
+          </span>
+          <span class="nav__wordmark">Pichi Pelluco</span>
+        </span>
+      </a>
+
+      <nav class="nav__links" id="navLinks">
+        <a href="#inicio">Inicio</a>
+        <a href="#historia">Historia</a>
+        <a href="#vision">Visión</a>
+        <a href="#horarios">Horarios</a>
+        <a href="#agenda">Agenda</a>
+        <a href="#ministerios">Ministerios</a>
+        <a href="#galeria">Galería</a>
+        <a href="#redes">Redes</a>
+        <a href="#fe">Fe</a>
+        <a href="#contacto" class="nav__cta">Visítanos</a>
+      </nav>
+
+      <button class="nav__toggle" id="navToggle" aria-label="Menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="inicio">
+    <div class="hero__bg" aria-hidden="true">
+      <div class="hero__photo"></div>
+      <span class="orb orb--1"></span>
+      <span class="orb orb--2"></span>
+      <span class="orb orb--3"></span>
+      <div class="hero__grid"></div>
+    </div>
+
+    <div class="hero__content reveal">
+      <img src="assets/img/isotipo-white.svg" alt="Logo Iglesia Pichi Pelluco" class="hero__logo" />
+      <p class="hero__eyebrow">Iglesia Metodista Pentecostal de Chile</p>
+      <h1 class="hero__title">Pichi&nbsp;Pelluco</h1>
+      <p class="hero__tagline"><span class="grad-text">Libertad</span> y <span class="grad-text">Adoración</span></p>
+      <p class="hero__sub">Un espacio de fe, restauración y esperanza en el corazón de Puerto&nbsp;Montt, donde creemos que el Señor sigue transformando vidas.</p>
+      <div class="hero__actions">
+        <a href="#horarios" class="btn btn--primary">Horarios de culto</a>
+        <a href="#contacto" class="btn btn--ghost">Cómo llegar</a>
+        <button type="button" class="btn btn--ghost hero__intro" id="introBtn" aria-label="Ver video de introducción">▶ Ver intro</button>
+      </div>
+    </div>
+
+    <a href="#bienvenida" class="hero__scroll" aria-label="Bajar">
+      <span class="mouse"><span></span></span>
+    </a>
+  </section>
+
+  <!-- ============ BIENVENIDA ============ -->
+  <section class="section section--welcome" id="bienvenida">
+    <div class="container reveal">
+      <span class="kicker">Bienvenido a casa</span>
+      <h2 class="display">Las puertas abiertas para<br />todo aquel que busca a Dios</h2>
+      <p class="lead">
+        Somos una iglesia cristiana evangélica ubicada en Pichi Pelluco, Puerto Montt, que abre sus puertas a
+        toda persona que desee acercarse a Dios. Aquí encontrarás un espacio de fe, restauración y
+        esperanza, donde creemos que el Señor sigue transformando vidas.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ HISTORIA ============ -->
+  <section class="section section--history" id="historia">
+    <div class="container grid-2">
+      <div class="history__media reveal">
+        <div class="history__photo">
+          <img src="assets/img/fotos/historia.jpg" alt="Templo de la Iglesia Pichi Pelluco" loading="lazy" />
+          <div class="history__badge">
+            <span class="history__years">+50</span>
+            <span class="history__years-label">años de fe</span>
+          </div>
+        </div>
+        <div class="history__quote">
+          <p>“Levantado con sacrificio, oración y esperanza.”</p>
+        </div>
+      </div>
+      <div class="history__text reveal">
+        <span class="kicker">Nuestra historia</span>
+        <h2 class="display">De una carbonera<br />a un templo consagrado</h2>
+        <p>
+          La Iglesia Metodista Pentecostal de Chile Pichi Pelluco nace hace más de 50 años en el
+          corazón de hermanos que, guiados por la fe y liderados por quien fuera nuestro pastor
+          <strong>Orlando Rodríguez</strong>, junto a la pastora <strong>Otilia Ortega</strong>, soñaron con
+          tener un lugar donde reunirse para alabar y bendecir el nombre de Dios.
+        </p>
+        <p>
+          En sus primeros años, la congregación se reunió en una carbonera y en casas particulares.
+          Eran tiempos sencillos, marcados por la pobreza, el esfuerzo y la profunda convicción de
+          que Dios estaba con su pueblo.
+        </p>
+        <p>
+          Con fe y trabajo comunitario, los hermanos comenzaron a levantar el templo. Cada uno
+          aportó según sus fuerzas —incluso comprando un metro cuadrado— en medio de una población
+          que recién comenzaba a formarse. No había casas ni negocios alrededor; sólo el deseo
+          sincero de construir un espacio consagrado a Dios.
+        </p>
+        <p>
+          Hoy, la Iglesia de Pichi Pelluco sigue siendo un lugar de encuentro, adoración y servicio,
+          manteniendo viva la fe de quienes creyeron que Dios podía hacer grandes cosas en este lugar.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VISIÓN + PASTOR ============ -->
+  <section class="section section--vision" id="vision">
+    <div class="vision__bg" aria-hidden="true"></div>
+    <div class="container reveal">
+      <span class="kicker kicker--light">Nuestra visión</span>
+      <h2 class="display display--light">Un hospital para el alma</h2>
+      <div class="vision__grid">
+        <p class="vision__lead">
+          Somos una iglesia cálida, abierta a toda persona que llegue con un corazón dispuesto para
+          buscar, alabar y adorar a Dios. Creemos que la iglesia debe ser un lugar de refugio,
+          restauración y esperanza; un hospital para el alma en medio del cansancio, las cargas y el
+          ajetreo diario.
+        </p>
+        <p class="vision__body">
+          En Pichi Pelluco, nadie necesita aparentar para acercarse a Dios. Recibimos a cada persona
+          con amor, sin importar su condición, historia o vestimenta, confiando en que el Señor sigue
+          transformando vidas por medio de su presencia, su Palabra y el poder del Espíritu Santo.
+        </p>
+      </div>
+
+      <figure class="pastor reveal">
+        <blockquote>
+          Nuestra consigna es simple y profunda:<br />
+          <span class="grad-text">Libertad y Adoración.</span>
+        </blockquote>
+        <figcaption>
+          <span class="pastor__name">Pastor Mario Hernán Ortega Olmedo</span>
+          <span class="pastor__name">Pastora Irene de la Cruz Muñoz Correa</span>
+          <span class="pastor__role">Pastores de la congregación</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ NUESTROS PASTORES ============ -->
+  <section class="section section--pastors" id="pastores">
+    <div class="container">
+      <div class="section__head reveal">
+        <span class="kicker">Nuestro liderazgo</span>
+        <h2 class="display">Nuestros Pastores</h2>
+      </div>
+      <div class="pastors__duo reveal">
+        <figure class="pastors__card">
+          <img src="assets/img/fotos/pastor-mario.jpg" alt="Pastor Mario Hernán Ortega Olmedo" loading="lazy" />
+          <figcaption>Pastor Mario Hernán Ortega Olmedo</figcaption>
+        </figure>
+        <figure class="pastors__card">
+          <img src="assets/img/fotos/pastora-irene.jpg" alt="Pastora Irene de la Cruz Muñoz Correa" loading="lazy" />
+          <figcaption>Pastora Irene de la Cruz Muñoz Correa</figcaption>
+        </figure>
+      </div>
+      <div class="pastors__text reveal">
+        <p class="pastors__lead">Nuestros pastores, Mario Ortega Olmedo e Irene Muñoz Correa, han dedicado gran parte de su vida al servicio del Señor y de la Iglesia Metodista Pentecostal de Chile en Pichi Pelluco.</p>
+        <p>Antes de asumir el pastorado de nuestra congregación, sirvieron en distintas áreas de la obra: en la juventud, en el cuerpo de Oficiales, en las Dorcas, en el Estudio Bíblico, en los locales de la iglesia y también en el coro. Esa trayectoria de servicio les permitió conocer de cerca la vida de la congregación, sus necesidades, sus luchas y también la fe sencilla de los hermanos y hermanas que han formado parte de esta iglesia.</p>
+        <p>Durante su ministerio pastoral, han trabajado con constancia en el cuidado espiritual de la congregación, procurando que la Palabra del Señor ocupe siempre el lugar principal. Junto a las Dorcas, los hermanos Oficiales, los Voluntarios, la Juventud y todos quienes componen la iglesia, han impulsado distintas labores para hermosear el templo, adaptar sus espacios a las necesidades actuales y disponer lugares adecuados para la adoración, la enseñanza y el servicio, incluyendo salas para la Escuela Dominical y otros espacios de encuentro.</p>
+        <p>Uno de los sellos de su pastorado ha sido abrir puertas para que los hermanos puedan servir, trabajar y desarrollar sus dones. Bajo su dirección, la iglesia ha procurado conservar su identidad espiritual, sin cerrar el paso a nuevas ideas, herramientas y formas de trabajo que permitan fortalecer la obra del Señor.</p>
+        <p>Su ministerio se ha caracterizado por un pastoreo sencillo, cercano y consciente de la responsabilidad que implica servir a la iglesia. Nuestro pastor Mario ha enseñado muchas veces que el pastorado es un cargo de servicio, pero que el dueño de la iglesia es el Señor. Por eso, toda obra, todo avance y toda bendición pertenecen a Dios, y a Él se le debe siempre la gloria, la honra y el honor.</p>
+        <p>Con gratitud reconocemos en nuestros pastores una vida de entrega, fidelidad y amor por la obra del Señor, confiando en que Dios seguirá guiando a su iglesia conforme a su voluntad.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HORARIOS ============ -->
+  <section class="section section--schedule" id="horarios">
+    <div class="container">
+      <div class="section__head reveal">
+        <span class="kicker">Te esperamos</span>
+        <h2 class="display">Horarios de la semana</h2>
+        <p class="lead lead--center">Reuniones de adoración, estudio y comunión durante toda la semana.</p>
+      </div>
+
+      <div class="schedule reveal">
+        <div class="schedule__item schedule__item--rest">
+          <span class="schedule__day">Lunes</span>
+          <span class="schedule__rest">Sin reuniones</span>
+        </div>
+        <div class="schedule__item">
+          <span class="schedule__day">Martes</span>
+          <ul class="schedule__activities">
+            <li><span class="schedule__name">Ensayo de coro</span><span class="schedule__time">20:00</span></li>
+          </ul>
+        </div>
+        <div class="schedule__item">
+          <span class="schedule__day">Miércoles</span>
+          <ul class="schedule__activities">
+            <li><span class="schedule__name">Clase de Dorcas</span><span class="schedule__time">15:00</span></li>
+            <li><span class="schedule__name">Estudio Bíblico</span><span class="schedule__time">20:00</span></li>
+          </ul>
+        </div>
+        <div class="schedule__item">
+          <span class="schedule__day">Jueves</span>
+          <ul class="schedule__activities">
+            <li><span class="schedule__name">Culto General</span><span class="schedule__time">19:30</span></li>
+          </ul>
+        </div>
+        <div class="schedule__item">
+          <span class="schedule__day">Viernes</span>
+          <ul class="schedule__activities">
+            <li><span class="schedule__name">Juventud Mixta y Voluntarios</span><span class="schedule__time">20:00</span></li>
+          </ul>
+        </div>
+        <div class="schedule__item schedule__item--rest">
+          <span class="schedule__day">Sábado</span>
+          <span class="schedule__rest">Actividades especiales programadas según calendario</span>
+        </div>
+        <div class="schedule__item schedule__item--feature">
+          <span class="schedule__day">Domingo</span>
+          <ul class="schedule__activities">
+            <li><span class="schedule__name">Escuela Dominical</span><span class="schedule__time">10:30</span></li>
+            <li><span class="schedule__name">Ensayo de coro</span><span class="schedule__time">14:30</span></li>
+            <li><span class="schedule__name">Culto General</span><span class="schedule__time">17:00</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Locales -->
+      <div class="locales reveal">
+        <h3 class="locales__title">Locales de la Iglesia</h3>
+        <div class="locales__grid">
+          <a class="locale" href="https://maps.app.goo.gl/oPs1dnFQN2wPgZKV9" target="_blank" rel="noopener">
+            <span class="locale__name">Valle el Cardonal</span>
+            <span class="locale__time">Domingo · 14:00 hrs</span>
+            <span class="locale__link">Ver en mapa →</span>
+          </a>
+          <a class="locale" href="https://maps.app.goo.gl/AnN27YgJneWQMJf26" target="_blank" rel="noopener">
+            <span class="locale__name">Río Chico</span>
+            <span class="locale__time">Domingo · 13:30 hrs</span>
+            <span class="locale__link">Ver en mapa →</span>
+          </a>
+          <a class="locale" href="https://maps.app.goo.gl/AsJEU52K4tZYRBnM8" target="_blank" rel="noopener">
+            <span class="locale__name">Piedra Azul</span>
+            <span class="locale__time">Domingo · 11:00 hrs</span>
+            <span class="locale__link">Ver en mapa →</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ACCIÓN DE GRACIAS ============ -->
+  <section class="section section--thanks" id="accion-gracias">
+    <div class="container">
+      <div class="section__head reveal">
+        <span class="kicker">Cada año</span>
+        <h2 class="display">Acción de Gracias</h2>
+      </div>
+      <div class="thanks__grid reveal">
+        <figure class="thanks__media">
+          <img src="assets/img/fotos/accion-gracias-cordero.jpg" alt="Ofrenda del cordero en la Acción de Gracias" loading="lazy" />
+          <figcaption>La última ofrenda: el cordero, símbolo del sacrificio de Cristo.</figcaption>
+        </figure>
+        <div class="thanks__text">
+          <p class="thanks__lead">La Acción de Gracias es una de las actividades más significativas de nuestra iglesia. Cada año, la congregación se une en torno a este tiempo especial, que tiene un profundo sentido espiritual y también una dimensión material importante para el sostenimiento de la obra del Señor.</p>
+          <p>Durante este periodo se realizan cultos, encuentros, visitas, charlas y distintas actividades que buscan fortalecer la fe, la comunión y el compromiso de los hermanos y hermanas con Dios y con su iglesia. Es un tiempo para recordar con gratitud lo que el Señor ha hecho, renovar nuestras fuerzas espirituales y disponer el corazón para servir con amor.</p>
+          <p>La Acción de Gracias también se caracteriza por el esfuerzo y trabajo de toda la congregación. Con dedicación, organización y alegría, los hermanos colaboran para reunir recursos que permiten sostener, cuidar y proyectar la obra que Dios nos ha encomendado.</p>
+          <p>Uno de los momentos más especiales de esta celebración es la puesta en escena inspirada en el pueblo de Israel, donde los hermanos representan con vestimentas y ofrendas simbólicas una expresión de gratitud delante del Señor. Junto a los sobres de ofrenda, se presentan también ofrendas representativas que dan un sentido espiritual y visual a este acto de entrega.</p>
+          <p>Cada año, la última ofrenda corresponde al cordero, símbolo que nos recuerda el sacrificio, la entrega y el amor de Jesucristo por la humanidad. De esta manera, la Acción de Gracias no solo mira al esfuerzo de la iglesia, sino principalmente a Cristo, quien es el centro de nuestra fe y la razón de toda gratitud.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AGENDA (Google Calendar) ============ -->
+  <section class="section section--agenda" id="agenda">
+    <div class="container">
+      <div class="section__head reveal">
+        <span class="kicker">Agéndate</span>
+        <h2 class="display">Agenda de actividades</h2>
+        <p class="lead lead--center">Actividades especiales y eventos de la congregación. Se actualiza automáticamente con nuestro calendario.</p>
+      </div>
+      <div class="agenda reveal">
+        <div class="agenda__frame">
+          <iframe src="https://calendar.google.com/calendar/embed?src=bd473b9e98a5dad65c9dbfc7660cb589d1afc3a9ed22591588a7532968f1a790%40group.calendar.google.com&ctz=America%2FSantiago&mode=AGENDA&showTitle=0&showPrint=0&showTabs=0&showCalendars=0&showTz=0&showNav=1&showDate=1&bgcolor=%23FFFFFF&color=%23622367&hl=es" title="Agenda de actividades — IMPCh Pichi Pelluco" loading="lazy"></iframe>
+        </div>
+        <p class="agenda__hint">
+          <a href="https://calendar.google.com/calendar/u/0?cid=YmQ0NzNiOWU5OGE1ZGFkNjVjOWRiZmM3NjYwY2I1ODlkMWFmYzNhOWVkMjI1OTE1ODhhNzUzMjk2OGYxYTc5MEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank" rel="noopener">Añadir a mi Google Calendar →</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MINISTERIOS ============ -->
+  <section class="section section--ministries" id="ministerios">
+    <div class="container">
+      <div class="section__head reveal">
+        <span class="kicker">Vida en comunidad</span>
+        <h2 class="display">Nuestros cuerpos y servicio</h2>
+        <p class="lead lead--center">Cada ministerio es una forma de servir a Dios y a la congregación.</p>
+      </div>
+
+      <div class="ministries reveal">
+        <article class="ministry">
+          <span class="ministry__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-6.5-4.2-6.5-9A3.5 3.5 0 0 1 12 8.2 3.5 3.5 0 0 1 18.5 11c0 4.8-6.5 9-6.5 9Z"/></svg>
+          </span>
+          <h3>Dorcas</h3>
+          <p class="ministry__intro">El cuerpo de Dorcas está compuesto por hermanas adultas que, por años, han sido un verdadero pilar espiritual de nuestra congregación. Bajo el liderazgo de nuestra pastora Irene, se reúnen con fidelidad para orar, compartir la Palabra del Señor y fortalecer su vida espiritual.</p>
+          <button class="ministry__more" type="button">Leer más</button>
+          <template>
+            <p>El cuerpo de Dorcas está compuesto por hermanas adultas que, por años, han sido un verdadero pilar espiritual de nuestra congregación. Bajo el liderazgo de nuestra pastora Irene, se reúnen con fidelidad para orar, compartir la Palabra del Señor y fortalecer su vida espiritual.</p>
+            <p>Su labor se expresa en el servicio constante, la ayuda fraterna y la disposición para acompañar a quienes lo necesitan. Con amor, organización y compromiso, han participado activamente en la vida de la iglesia, colaborando también en la construcción, mantención y hermoseamiento del templo.</p>
+            <p>Cuando se reúnen para alabar al Señor, las Dorcas se caracterizan por su fervor, su unidad y su profundo amor por la obra de Dios. Su testimonio refleja una fe sencilla, servicial y perseverante, que ha sido de gran bendición para nuestra iglesia.</p>
+          </template>
+        </article>
+        <article class="ministry">
+          <span class="ministry__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8.5" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><path d="M16 6.2a3 3 0 0 1 0 5.6"/><path d="M17 14.5a5.5 5.5 0 0 1 3.5 5.1"/></svg>
+          </span>
+          <h3>Voluntarios</h3>
+          <p class="ministry__intro">El cuerpo de Voluntarios cumple una labor muy valiosa dentro de nuestra iglesia. Está compuesto principalmente por hermanos que lideran, sirven y entregan su tiempo de manera desinteresada al servicio del Señor y de la congregación.</p>
+          <button class="ministry__more" type="button">Leer más</button>
+          <template>
+            <p>El cuerpo de Voluntarios cumple una labor muy valiosa dentro de nuestra iglesia. Está compuesto principalmente por hermanos que lideran, sirven y entregan su tiempo de manera desinteresada al servicio del Señor y de la congregación.</p>
+            <p>Son padres de familia, hombres de trabajo y hermanos de fe que se reúnen para compartir, hablar de las cosas del Señor y crecer juntos espiritualmente. Desde ese compañerismo, fortalecen su vida cristiana y también animan a otros a permanecer firmes en el camino de Dios.</p>
+            <p>Además de velar por sus familias y colaborar en distintas necesidades materiales de la iglesia, los Voluntarios acompañan al pastor en labores espirituales que les son encomendadas, sirviendo con disposición, respeto y compromiso.</p>
+            <p>Su trabajo, muchas veces silencioso, sostiene parte importante de la vida congregacional y refleja una fe práctica, humilde y comprometida con la obra del Señor.</p>
+          </template>
+        </article>
+        <article class="ministry">
+          <span class="ministry__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v2.6M12 18.9v2.6M21.5 12h-2.6M5.1 12H2.5M18.4 5.6l-1.8 1.8M7.4 16.6l-1.8 1.8M18.4 18.4l-1.8-1.8M7.4 7.4 5.6 5.6"/></svg>
+          </span>
+          <h3>Juventud Mixta</h3>
+          <p class="ministry__intro">La Juventud Mixta está compuesta por jóvenes solteros entre los 13 y los 30 años, y constituye un espacio importante de formación, comunión y crecimiento espiritual.</p>
+          <button class="ministry__more" type="button">Leer más</button>
+          <template>
+            <p>La Juventud Mixta está compuesta por jóvenes solteros entre los 13 y los 30 años, y constituye un espacio importante de formación, comunión y crecimiento espiritual.</p>
+            <p>Como iglesia, buscamos acompañarlos en su camino hacia la adultez, animándolos a permanecer firmes en la fe, cimentados en la Palabra de Dios y comprometidos con una vida que honre al Señor.</p>
+            <p>Creemos que los jóvenes no son solamente el futuro de la iglesia, sino también una parte viva y fundamental de su presente. Con su energía, disposición y alegría, aportan al desarrollo de la obra, sirviendo de manera desinteresada en distintas áreas y colaborando con generosidad en los desafíos prácticos, técnicos y espirituales de la congregación.</p>
+            <p>Su presencia es una bendición para la iglesia, y su servicio refleja una fe que se aprende, se vive y también se comparte.</p>
+          </template>
+        </article>
+        <article class="ministry">
+          <span class="ministry__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 17V5l11-2v12"/><circle cx="6" cy="17" r="3"/><circle cx="17" cy="15" r="3"/></svg>
+          </span>
+          <h3>Coro Instrumental</h3>
+          <p class="ministry__intro">El Coro Instrumental es una expresión viva de la adoración en nuestra Iglesia Metodista Pentecostal de Chile. Con instrumentos tradicionales como la mandolina y la guitarra acústica, junto a instrumentos modernos como el bajo, la guitarra eléctrica y la percusión, acompaña a la congregación en la alabanza al Señor.</p>
+          <button class="ministry__more" type="button">Leer más</button>
+          <template>
+            <p>El Coro Instrumental es una expresión viva de la adoración en nuestra Iglesia Metodista Pentecostal de Chile. Con instrumentos tradicionales como la mandolina y la guitarra acústica, junto a instrumentos modernos como el bajo, la guitarra eléctrica y la percusión, acompaña a la congregación en la alabanza al Señor.</p>
+            <p>A través de cuerdas, vientos, percusión y, sobre todo, de las voces que se unen para adorar, el coro conserva parte importante de nuestra identidad espiritual y musical, sirviendo con reverencia en cada culto y actividad de la iglesia.</p>
+          </template>
+        </article>
+        <article class="ministry">
+          <span class="ministry__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C10.3 5.2 7.4 4.6 4 5.6v12c3.4-1 6.3-.4 8 .9 1.7-1.3 4.6-1.9 8-.9v-12c-3.4-1-6.3-.4-8 .9Z"/><path d="M12 6.5v12.9"/></svg>
+          </span>
+          <h3>Escuela Dominical</h3>
+          <p class="ministry__intro">La Escuela Dominical ha sido, por años, un espacio de enseñanza, diálogo y formación en la Palabra del Señor para hombres, mujeres, jóvenes y niños.</p>
+          <button class="ministry__more" type="button">Leer más</button>
+          <template>
+            <p>La Escuela Dominical ha sido, por años, un espacio de enseñanza, diálogo y formación en la Palabra del Señor para hombres, mujeres, jóvenes y niños.</p>
+            <p>Sus comienzos fueron sencillos y muchas veces rudimentarios, pero siempre marcados por la fe y la confianza en que Dios, por su providencia, daría la claridad necesaria para comprender mejor su Palabra. Hoy, esa misma confianza permanece viva, enriquecida también por el aporte teológico de hermanos y hermanas que han podido prepararse, junto con el uso de herramientas y medios tecnológicos que apoyan la enseñanza.</p>
+            <p>Su sello sigue siendo el mismo: aprender la Palabra de Dios con cercanía, sencillez y un espíritu fraterno, donde cada clase se transforma en una oportunidad para crecer juntos en la fe.</p>
+          </template>
+        </article>
+        <article class="ministry">
+          <span class="ministry__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5v3a1 1 0 0 0 1 1h2.5l7 4V5.5l-7 4H5a1 1 0 0 0-1 1Z"/><path d="M18 9.5a4 4 0 0 1 0 5"/><path d="M8.5 15.5V19"/></svg>
+          </span>
+          <h3>Evangelismo</h3>
+          <p class="ministry__intro">El evangelismo es parte fundamental de nuestra vida como iglesia. Muchos de nuestros hermanos antiguos, incluyendo a nuestro pastor Mario, llegaron a los caminos del Señor después de escuchar una predicación al aire libre.</p>
+          <button class="ministry__more" type="button">Leer más</button>
+          <template>
+            <p>El evangelismo es parte fundamental de nuestra vida como iglesia. Muchos de nuestros hermanos antiguos, incluyendo a nuestro pastor Mario, llegaron a los caminos del Señor después de escuchar una predicación al aire libre.</p>
+            <p>Por esta razón, nuestra congregación ha mantenido viva la tradición de predicar la Palabra de Dios en la calle, compartiendo con sencillez y convicción el mensaje de salvación en Jesucristo.</p>
+            <p>Sabemos que existen diversas formas de evangelizar, y procuramos integrarlas conforme el Señor nos permite. Sin embargo, seguimos valorando la predicación al aire libre como parte de nuestro sello Metodista Pentecostal, una expresión de fe que identifica a nuestra iglesia y a muchas congregaciones a lo largo del país.</p>
+          </template>
+        </article>
+        <article class="ministry">
+          <span class="ministry__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 13.5 4.8 11a1.6 1.6 0 0 0-2.3 2.2l4 4.4A6 6 0 0 0 11 19.6h1.5a5.5 5.5 0 0 0 5.5-5.5V7.5a1.5 1.5 0 0 0-3 0V11"/><path d="M15 11V5.5a1.5 1.5 0 0 0-3 0V11"/><path d="M12 11V6.5a1.5 1.5 0 0 0-3 0V13"/></svg>
+          </span>
+          <h3>Servicio</h3>
+          <p class="ministry__intro">El servicio es una expresión sencilla y profunda del amor a Dios y a su obra. En nuestra iglesia, muchos hermanos y hermanas entregan voluntariamente su tiempo, sus fuerzas y sus dones en distintas áreas, colaborando para que cada culto, reunión y actividad pueda desarrollarse de la mejor manera.</p>
+          <button class="ministry__more" type="button">Leer más</button>
+          <template>
+            <p>El servicio es una expresión sencilla y profunda del amor a Dios y a su obra. En nuestra iglesia, muchos hermanos y hermanas entregan voluntariamente su tiempo, sus fuerzas y sus dones en distintas áreas, colaborando para que cada culto, reunión y actividad pueda desarrollarse de la mejor manera.</p>
+            <p>Muchas veces este trabajo se realiza en silencio y sin mayor reconocimiento visible: preparar espacios, recibir a quienes llegan, apoyar en la mantención del templo, colaborar en el orden, la limpieza, el sonido, la proyección, la administración, la ayuda fraterna y tantas otras labores necesarias para la vida de la congregación.</p>
+            <p>Creemos que cada servicio, por pequeño que parezca, tiene un valor precioso delante del Señor. Por eso, agradecemos a quienes sirven con disposición, humildad y alegría, entendiendo que también desde esas tareas se edifica la iglesia y se honra a Dios.</p>
+          </template>
+        </article>
+      </div>
+      <p class="ministries__hint" aria-hidden="true">Desliza para ver más →</p>
+
+      <!-- Modal de ministerio (texto completo) -->
+      <div class="ministry-modal" id="ministryModal" aria-hidden="true">
+        <div class="ministry-modal__panel" role="dialog" aria-modal="true" aria-labelledby="ministryModalTitle">
+          <button class="ministry-modal__close" id="ministryModalClose" aria-label="Cerrar">&times;</button>
+          <span class="ministry-modal__icon" id="ministryModalIcon" aria-hidden="true"></span>
+          <h3 class="ministry-modal__title" id="ministryModalTitle"></h3>
+          <div class="ministry-modal__body" id="ministryModalBody"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GALERÍA ============ -->
+  <section class="section section--gallery" id="galeria">
+    <div class="container">
+      <div class="section__head reveal">
+        <span class="kicker">Nuestra comunidad</span>
+        <h2 class="display">Vida de nuestra iglesia</h2>
+        <p class="lead lead--center">Momentos de adoración, comunión y servicio que dan testimonio de la obra de Dios en Pichi Pelluco.</p>
+      </div>
+
+      <div class="albums reveal">
+        <button class="album-card" type="button" data-album="comunion-servicio">
+          <img src="assets/img/fotos/comunion-servicio-1.jpg" alt="" loading="lazy" />
+          <span class="album-card__label">Comunión y Servicio</span>
+        </button>
+        <button class="album-card" type="button" data-album="culto-general">
+          <img src="assets/img/fotos/culto-general-1.jpg" alt="" loading="lazy" />
+          <span class="album-card__label">Culto General</span>
+        </button>
+        <button class="album-card" type="button" data-album="coro-instrumental">
+          <img src="assets/img/fotos/coro-instrumental-1.jpg" alt="" loading="lazy" />
+          <span class="album-card__label">Coro Instrumental</span>
+        </button>
+        <button class="album-card" type="button" data-album="escuela-dominical">
+          <img src="assets/img/fotos/escuela-dominical-1.jpg" alt="" loading="lazy" />
+          <span class="album-card__label">Escuela Dominical</span>
+        </button>
+        <button class="album-card" type="button" data-album="estudio-palabra">
+          <img src="assets/img/fotos/estudio-palabra-1.jpg" alt="" loading="lazy" />
+          <span class="album-card__label">Estudio de la Palabra</span>
+        </button>
+        <button class="album-card" type="button" data-album="juventud-mixta">
+          <img src="assets/img/fotos/juventud-mixta-1.jpg" alt="" loading="lazy" />
+          <span class="album-card__label">Juventud Mixta</span>
+        </button>
+        <button class="album-card album-card--wide" type="button" data-album="iglesia-historia">
+          <img src="assets/img/fotos/iglesia-historia-1.jpg" alt="" loading="lazy" />
+          <span class="album-card__label">Iglesia con Historia</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+      <button class="lightbox__close" id="lightboxClose" aria-label="Cerrar">&times;</button>
+      <button class="lightbox__nav lightbox__prev" id="lightboxPrev" aria-label="Anterior">&#8249;</button>
+      <figure class="lightbox__stage">
+        <img src="" alt="" id="lightboxImg" />
+        <figcaption id="lightboxCaption"></figcaption>
+      </figure>
+      <button class="lightbox__nav lightbox__next" id="lightboxNext" aria-label="Siguiente">&#8250;</button>
+    </div>
+  </section>
+
+  <!-- Visor de álbum (galería por carpetas) -->
+  <div class="album-lightbox" id="albumLightbox" aria-hidden="true">
+    <button class="album-lightbox__close" id="albumClose" aria-label="Cerrar">&times;</button>
+    <button class="album-lightbox__nav album-lightbox__prev" id="albumPrev" aria-label="Anterior">&#8249;</button>
+    <figure class="album-lightbox__stage">
+      <img id="albumImg" src="" alt="" />
+      <figcaption id="albumCap"></figcaption>
+    </figure>
+    <button class="album-lightbox__nav album-lightbox__next" id="albumNext" aria-label="Siguiente">&#8250;</button>
+  </div>
+
+  <!-- ============ REDES SOCIALES ============ -->
+  <section class="section section--social" id="redes">
+    <div class="container">
+      <div class="section__head reveal">
+        <span class="kicker">Conéctate con nosotros</span>
+        <h2 class="display">Redes Sociales</h2>
+        <p class="lead lead--center">Las redes sociales han sido una herramienta importante para compartir la vida de nuestra iglesia y acercar nuestras actividades a la congregación y a la comunidad.</p>
+      </div>
+
+      <div class="social__intro reveal">
+        <p>A través de <strong>Facebook</strong> e <strong>Instagram</strong> hemos podido difundir cultos especiales, encuentros, visitas, actividades congregacionales y distintos momentos que forman parte de nuestra vida como iglesia. Estos espacios nos permiten mantener informada a la hermandad y también compartir con otros lo que el Señor nos permite vivir.</p>
+        <p>De manera especial, <strong>YouTube</strong> ha sido una herramienta de bendición para compartir actividades, alabanzas, reflexiones y mensajes de la Palabra de Dios. Durante la época de pandemia, cuando reunirnos presencialmente se volvió más difícil, hermanos de la congregación pusieron sus dones y conocimientos al servicio del Señor, permitiendo que el mensaje siguiera llegando a los hogares.</p>
+        <p>Hoy seguimos valorando estos medios como una forma de comunicar, acompañar y evangelizar, entendiendo que también a través de ellos podemos compartir la fe, fortalecer la comunión y anunciar el mensaje de Jesucristo.</p>
+      </div>
+
+      <div class="social__cta reveal">
+        <a href="https://www.facebook.com/IMPPICHIPELLUCO/" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://www.instagram.com/pichipellucoimp" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.youtube.com/channel/UCFGY7mkzu0IeaRmjsbnQtlA" target="_blank" rel="noopener">YouTube</a>
+      </div>
+
+      <div class="media-row reveal">
+        <h3 class="media-row__title">Predicaciones en pandemia</h3>
+        <p class="media-row__sub">Reflexiones compartidas durante la pandemia. Toca una para verla.</p>
+        <div class="media-scroll">
+        <button class="media-card" type="button" data-yt="fuLMO2Tk5Kg" aria-label="Reproducir: NEHUSTÁN">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/fuLMO2Tk5Kg/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">NEHUSTÁN</span>
+        </button>
+        <button class="media-card" type="button" data-yt="AnnsxvQr3eg" aria-label="Reproducir: SOMOS VULNERABLES">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/AnnsxvQr3eg/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">SOMOS VULNERABLES</span>
+        </button>
+        <button class="media-card" type="button" data-yt="nOyBEpPt9zY" aria-label="Reproducir: DIOS TIENE EL CONTROL">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/nOyBEpPt9zY/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">DIOS TIENE EL CONTROL</span>
+        </button>
+        <button class="media-card" type="button" data-yt="IMwJIehCRe4" aria-label="Reproducir: SEGUIREMOS CONFIANDO">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/IMwJIehCRe4/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">SEGUIREMOS CONFIANDO</span>
+        </button>
+        <button class="media-card" type="button" data-yt="jvu-Dt-YE44" aria-label="Reproducir: LA ORACIÓN">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/jvu-Dt-YE44/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">LA ORACIÓN</span>
+        </button>
+        <button class="media-card" type="button" data-yt="GR8uUidxdZE" aria-label="Reproducir: LA EXCELENCIA DE SU PODER">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/GR8uUidxdZE/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">LA EXCELENCIA DE SU PODER</span>
+        </button>
+        <button class="media-card" type="button" data-yt="x730w0-r81s" aria-label="Reproducir: ¿QUÉ VOZ ESCUCHAMOS HOY?">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/x730w0-r81s/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">¿QUÉ VOZ ESCUCHAMOS HOY?</span>
+        </button>
+        <button class="media-card" type="button" data-yt="C_XfCNWzr5Y" aria-label="Reproducir: TU ERES MI SOCORRO">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/C_XfCNWzr5Y/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">TU ERES MI SOCORRO</span>
+        </button>
+        <button class="media-card" type="button" data-yt="rjZIrclDqMk" aria-label="Reproducir: CUANDO LA RESPUESTA ES NO">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/rjZIrclDqMk/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">CUANDO LA RESPUESTA ES NO</span>
+        </button>
+        <button class="media-card" type="button" data-yt="EONHrqHxIvo" aria-label="Reproducir: UNA VERDAD VÁLIDA PARA AYER, HOY Y SIEMPRE">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/EONHrqHxIvo/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">UNA VERDAD VÁLIDA PARA AYER, HOY Y SIEMPRE</span>
+        </button>
+        <button class="media-card" type="button" data-yt="fjWnYJXGRL4" aria-label="Reproducir: MÁS QUE VENCEDORES">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/fjWnYJXGRL4/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">MÁS QUE VENCEDORES</span>
+        </button>
+        <button class="media-card" type="button" data-yt="NxRNouJPGEU" aria-label="Reproducir: ES TIEMPO DE VOLVER A CASA, ES TIEMPO DE VOLVER A DIOS">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/NxRNouJPGEU/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">ES TIEMPO DE VOLVER A CASA, ES TIEMPO DE VOLVER A DIOS</span>
+        </button>
+        <button class="media-card" type="button" data-yt="-6LrCn5JyU4" aria-label="Reproducir: ÉL NO NOS DEJARÁ SOLOS">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/-6LrCn5JyU4/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">ÉL NO NOS DEJARÁ SOLOS</span>
+        </button>
+        <button class="media-card" type="button" data-yt="Rqln0TOe_Hk" aria-label="Reproducir: DIOS CAMBIA, LA DESOLACIÓN EN ESPERANZA">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/Rqln0TOe_Hk/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">DIOS CAMBIA, LA DESOLACIÓN EN ESPERANZA</span>
+        </button>
+        <button class="media-card" type="button" data-yt="niO1KaaNifQ" aria-label="Reproducir: ¿POR QUÉ NO OTRO?">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/niO1KaaNifQ/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">¿POR QUÉ NO OTRO?</span>
+        </button>
+        <button class="media-card" type="button" data-yt="qTZMbdLVHJ4" aria-label="Reproducir: UN LLAMADO AL PRIMER AMOR">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/qTZMbdLVHJ4/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">UN LLAMADO AL PRIMER AMOR</span>
+        </button>
+        <button class="media-card" type="button" data-yt="GN9mQy9PQBk" aria-label="Reproducir: ¿QUÉ ES LO QUE QUEREMOS ESCUCHAR?">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/GN9mQy9PQBk/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">¿QUÉ ES LO QUE QUEREMOS ESCUCHAR?</span>
+        </button>
+        <button class="media-card" type="button" data-yt="Uh4fVw_EHuI" aria-label="Reproducir: ÉL SI PUDO RECONCILIARNOS">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/Uh4fVw_EHuI/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">ÉL SI PUDO RECONCILIARNOS</span>
+        </button>
+        <button class="media-card" type="button" data-yt="nFDkGkew9Tc" aria-label="Reproducir: MENOS RELIGIÓN, MÁS AMOR">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/nFDkGkew9Tc/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">MENOS RELIGIÓN, MÁS AMOR</span>
+        </button>
+        </div>
+      </div>
+
+      <div class="media-row reveal">
+        <h3 class="media-row__title">Música creada en pandemia</h3>
+        <p class="media-row__sub">Alabanzas grabadas por la congregación. Toca una para escucharla.</p>
+        <div class="media-scroll">
+        <button class="media-card" type="button" data-yt="cnWxXDDkZnM" aria-label="Reproducir: LA BENDICIÓN (THE BLESSING)">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/cnWxXDDkZnM/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">LA BENDICIÓN (THE BLESSING)</span>
+        </button>
+        <button class="media-card" type="button" data-yt="DXB3ceR-Jwc" aria-label="Reproducir: HE VISTO TU FIDELIDAD">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/DXB3ceR-Jwc/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">HE VISTO TU FIDELIDAD</span>
+        </button>
+        <button class="media-card" type="button" data-yt="SaFH7UZDZxY" aria-label="Reproducir: MIRAD AL SALVADOR">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/SaFH7UZDZxY/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">MIRAD AL SALVADOR</span>
+        </button>
+        <button class="media-card" type="button" data-yt="NSA9h43-fk0" aria-label="Reproducir: Te Deseo (Muriel Vargas, Gerardo Padilla)">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/NSA9h43-fk0/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">Te Deseo (Muriel Vargas, Gerardo Padilla)</span>
+        </button>
+        <button class="media-card" type="button" data-yt="jjcyiM00M6g" aria-label="Reproducir: Huesos Secos (Tavita Sánchez)">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/jjcyiM00M6g/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">Huesos Secos (Tavita Sánchez)</span>
+        </button>
+        <button class="media-card" type="button" data-yt="rwMmTpV7HUk" aria-label="Reproducir: Dios Imparable (Marcelo Aguilar)">
+          <span class="media-card__thumb">
+            <img src="https://i.ytimg.com/vi/rwMmTpV7HUk/hqdefault.jpg" alt="" loading="lazy" />
+            <span class="media-card__play" aria-hidden="true"><svg viewBox="0 0 68 48" width="60" height="42" aria-hidden="true"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.3.5 34 .5 34 .5S12.7.5 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7.2 13 .2 24 .2 24s0 11 1.3 16.3c.8 2.9 3 5.1 5.9 5.9C12.7 47.5 34 47.5 34 47.5s21.3 0 26.6-1.3c2.9-.8 5.1-3 5.9-5.9C67.8 35 67.8 24 67.8 24s0-11-1.3-16.3z" fill="#f00"/><path d="M27 34l18-10-18-10z" fill="#fff"/></svg></span>
+          </span>
+          <span class="media-card__title">Dios Imparable (Marcelo Aguilar)</span>
+        </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reproductor de video (YouTube embebido) -->
+    <div class="video-modal" id="videoModal" aria-hidden="true">
+      <button class="video-modal__close" id="videoModalClose" aria-label="Cerrar">&times;</button>
+      <div class="video-modal__frame" id="videoModalFrame"></div>
+    </div>
+  </section>
+
+  <!-- ============ EN QUÉ CREEMOS ============ -->
+  <section class="section section--faith" id="fe">
+    <div class="container">
+      <div class="section__head reveal">
+        <span class="kicker kicker--light">Nuestra fe</span>
+        <h2 class="display display--light">En qué creemos</h2>
+        <img src="assets/img/fotos/impch-emblema.png" alt="" class="faith__emblem" />
+      </div>
+
+      <ol class="beliefs reveal">
+        <li><span class="beliefs__num">01</span><p>Creemos que la <strong>Biblia</strong> es la Palabra de Dios, inspirada por el Espíritu Santo, y la única autoridad para guiar nuestra fe y conducta.</p></li>
+        <li><span class="beliefs__num">02</span><p>Creemos en un solo <strong>Dios verdadero</strong>, eterno y todopoderoso, manifestado en Padre, Hijo y Espíritu Santo.</p></li>
+        <li><span class="beliefs__num">03</span><p>Creemos que <strong>Jesucristo</strong> es el Hijo de Dios, quien murió por nuestros pecados y resucitó para darnos vida eterna.</p></li>
+        <li><span class="beliefs__num">04</span><p>Creemos en la obra del <strong>Espíritu Santo</strong>, quien guía, fortalece y transforma la vida del creyente.</p></li>
+        <li><span class="beliefs__num">05</span><p>Creemos que la <strong>salvación</strong> es por gracia, mediante la fe en Jesucristo.</p></li>
+        <li><span class="beliefs__num">06</span><p>Creemos en una vida de <strong>santidad</strong>, obediencia y compromiso con Dios.</p></li>
+        <li><span class="beliefs__num">07</span><p>Creemos en el <strong>bautismo</strong> como expresión de fe.</p></li>
+        <li><span class="beliefs__num">08</span><p>Creemos que la <strong>iglesia</strong> es el cuerpo de Cristo, llamada a predicar el evangelio y servir.</p></li>
+        <li><span class="beliefs__num">09</span><p>Creemos en la <strong>segunda venida</strong> de Jesucristo.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ CONTACTO ============ -->
+  <section class="section section--contact" id="contacto">
+    <div class="container grid-2">
+      <div class="contact__info reveal">
+        <span class="kicker">Visítanos</span>
+        <h2 class="display">Te esperamos<br />con los brazos abiertos</h2>
+        <p class="lead">No necesitas aparentar para acercarte a Dios. Ven tal como estás.</p>
+
+        <ul class="contact__list">
+          <li>
+            <span class="contact__label">Dirección</span>
+            <span class="contact__value">Río Techado s/n, Población Pichi Pelluco, Puerto Montt</span>
+          </li>
+          <li>
+            <span class="contact__label">WhatsApp</span>
+            <a href="https://wa.me/56935744584" target="_blank" rel="noopener">+56 9 3574 4584</a>
+          </li>
+          <li>
+            <span class="contact__label">Correo</span>
+            <a href="mailto:iglesiapichipelluco@gmail.com">iglesiapichipelluco@gmail.com</a>
+          </li>
+        </ul>
+
+        <div class="contact__socials">
+          <a href="https://www.instagram.com/pichipellucoimp" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>
+          <a href="https://www.facebook.com/IMPPICHIPELLUCO/" target="_blank" rel="noopener" aria-label="Facebook">Facebook</a>
+          <a href="https://www.youtube.com/channel/UCFGY7mkzu0IeaRmjsbnQtlA" target="_blank" rel="noopener" aria-label="YouTube">YouTube</a>
+        </div>
+
+        <a href="https://maps.app.goo.gl/MxDHdJg9xn44tDDR7" target="_blank" rel="noopener" class="btn btn--primary">Abrir en Google Maps</a>
+      </div>
+
+      <div class="contact__map reveal">
+        <iframe
+          title="Ubicación Iglesia Pichi Pelluco"
+          src="https://maps.google.com/maps?q=Pichi%20Pelluco%20Puerto%20Montt%20R%C3%ADo%20Techado&t=&z=15&ie=UTF8&iwloc=&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <img src="assets/img/logo-white.svg" alt="IMPCH Pichi Pelluco" class="footer__logo" />
+      <p class="footer__verse">“Una cosa he demandado a Jehová, ésta buscaré: que esté yo en la casa de Jehová todos los días de mi vida.” — Salmo 27:4</p>
+      <div class="footer__affiliation">
+        <img src="assets/img/fotos/impch-emblema.png" alt="Emblema Iglesia Metodista Pentecostal de Chile" class="footer__emblem" />
+        <span>Iglesia Metodista Pentecostal de Chile · 1909</span>
+      </div>
+      <p class="footer__copy">© <span id="year"></span> Iglesia Metodista Pentecostal de Chile · Pichi Pelluco, Puerto Montt. Hecho con fe para la gloria de Dios.</p>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/56935744584" class="wa-float" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+    <svg viewBox="0 0 32 32" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M16 .5C7.4.5.5 7.4.5 16c0 2.8.7 5.4 2 7.7L.5 31.5l8-2.1c2.2 1.2 4.8 1.9 7.5 1.9 8.6 0 15.5-6.9 15.5-15.5S24.6.5 16 .5zm0 28.3c-2.4 0-4.7-.6-6.7-1.8l-.5-.3-4.7 1.2 1.3-4.6-.3-.5c-1.3-2.1-2-4.5-2-7 0-7.1 5.8-12.9 12.9-12.9S28.9 8.9 28.9 16 23.1 28.8 16 28.8zm7.1-9.6c-.4-.2-2.3-1.1-2.6-1.3-.3-.1-.6-.2-.9.2-.3.4-1 1.3-1.2 1.5-.2.2-.4.3-.8.1-.4-.2-1.6-.6-3.1-1.9-1.1-1-1.9-2.3-2.1-2.7-.2-.4 0-.6.2-.8.2-.2.4-.4.6-.7.2-.2.3-.4.4-.7.1-.3 0-.5 0-.7-.1-.2-.9-2.2-1.3-3-.3-.7-.6-.6-.9-.6h-.7c-.2 0-.6.1-1 .5-.3.4-1.3 1.3-1.3 3.1 0 1.8 1.3 3.6 1.5 3.8.2.2 2.6 4 6.3 5.5.9.4 1.6.6 2.1.8.9.3 1.7.2 2.3.1.7-.1 2.3-.9 2.6-1.8.3-.9.3-1.6.2-1.8-.1-.2-.3-.3-.7-.5z"/></svg>
+  </a>
+
+  <script src="assets/js/script.js"></script>
+  <script>
+    (function(){
+      var modal=document.getElementById('videoModal');
+      if(!modal) return;
+      var frame=document.getElementById('videoModalFrame');
+      var closeBtn=document.getElementById('videoModalClose');
+      function openVid(id){
+        frame.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0" title="Video de YouTube" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
+        modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
+      }
+      function closeVid(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); frame.innerHTML=''; document.body.style.overflow=''; }
+      document.querySelectorAll('.media-card').forEach(function(c){ c.addEventListener('click',function(){ openVid(c.getAttribute('data-yt')); }); });
+      closeBtn.addEventListener('click',closeVid);
+      modal.addEventListener('click',function(e){ if(e.target===modal) closeVid(); });
+      document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeVid(); });
+    })();
+  </script>
+  <script>
+    (function(){
+      var A = {
+        "comunion-servicio":[{s:"assets/img/fotos/comunion-servicio-1.jpg",c:"Comunión y Servicio"},{s:"assets/img/fotos/comunion-servicio-2.jpg",c:"Comunión y Servicio"},{s:"assets/img/fotos/comunion-servicio-3.jpg",c:"Comunión y Servicio"},{s:"assets/img/fotos/comunion-servicio-4.jpg",c:"Comunión y Servicio"},{s:"assets/img/fotos/comunion-servicio-5.jpg",c:"Comunión y Servicio"}],
+        "culto-general":[{s:"assets/img/fotos/culto-general-1.jpg",c:"Culto General"},{s:"assets/img/fotos/culto-general-2.jpg",c:"Culto General"},{s:"assets/img/fotos/culto-general-3.jpg",c:"Culto General"},{s:"assets/img/fotos/culto-general-4.jpg",c:"Culto General"}],
+        "coro-instrumental":[{s:"assets/img/fotos/coro-instrumental-1.jpg",c:"Coro Instrumental"},{s:"assets/img/fotos/coro-instrumental-2.jpg",c:"Coro Instrumental"}],
+        "escuela-dominical":[{s:"assets/img/fotos/escuela-dominical-1.jpg",c:"Escuela Dominical"},{s:"assets/img/fotos/escuela-dominical-2.jpg",c:"Escuela Dominical"},{s:"assets/img/fotos/escuela-dominical-3.jpg",c:"Escuela Dominical"},{s:"assets/img/fotos/escuela-dominical-4.jpg",c:"Escuela Dominical"}],
+        "estudio-palabra":[{s:"assets/img/fotos/estudio-palabra-1.jpg",c:"Estudio de la Palabra"},{s:"assets/img/fotos/estudio-palabra-2.jpg",c:"Estudio de la Palabra"},{s:"assets/img/fotos/estudio-palabra-3.jpg",c:"Estudio de la Palabra"},{s:"assets/img/fotos/estudio-palabra-4.jpg",c:"Estudio de la Palabra"}],
+        "juventud-mixta":[{s:"assets/img/fotos/juventud-mixta-1.jpg",c:"Juventud Mixta"},{s:"assets/img/fotos/juventud-mixta-2.jpg",c:"Juventud Mixta"},{s:"assets/img/fotos/juventud-mixta-3.jpg",c:"Juventud Mixta"}],
+        "iglesia-historia":[{s:"assets/img/fotos/iglesia-historia-1.jpg",c:"Iglesia con Historia"},{s:"assets/img/fotos/iglesia-historia-2.jpg",c:"Iglesia con Historia"},{s:"assets/img/fotos/iglesia-historia-3.jpg",c:"Iglesia con Historia"},{s:"assets/img/fotos/iglesia-historia-4.jpg",c:"Iglesia con Historia"},{s:"assets/img/fotos/iglesia-historia-5.jpg",c:"Iglesia con Historia"},{s:"assets/img/fotos/iglesia-historia-6.jpg",c:"Iglesia con Historia"}]
+      };
+      var lb=document.getElementById('albumLightbox'); if(!lb) return;
+      var img=document.getElementById('albumImg'), cap=document.getElementById('albumCap');
+      var cur=[], idx=0;
+      function show(){ var it=cur[idx]; img.src=it.s; img.alt=it.c; cap.textContent=it.c+"  ("+(idx+1)+"/"+cur.length+")"; }
+      function open(id){ cur=A[id]||[]; if(!cur.length) return; idx=0; show(); lb.classList.add('open'); lb.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
+      function close(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); img.src=''; document.body.style.overflow=''; }
+      function nav(d){ if(!cur.length) return; idx=(idx+d+cur.length)%cur.length; show(); }
+      document.querySelectorAll('.album-card').forEach(function(c){ c.addEventListener('click',function(){ open(c.getAttribute('data-album')); }); });
+      document.getElementById('albumClose').addEventListener('click',close);
+      document.getElementById('albumPrev').addEventListener('click',function(){nav(-1);});
+      document.getElementById('albumNext').addEventListener('click',function(){nav(1);});
+      lb.addEventListener('click',function(e){ if(e.target===lb) close(); });
+      document.addEventListener('keydown',function(e){ if(!lb.classList.contains('open'))return; if(e.key==='Escape')close(); else if(e.key==='ArrowLeft')nav(-1); else if(e.key==='ArrowRight')nav(1); });
+    })();
+  </script>
+  <!-- Modal de intro (video local) -->
+  <div class="video-modal" id="introModal" aria-hidden="true">
+    <button class="video-modal__close" id="introClose" aria-label="Cerrar">&times;</button>
+    <div class="video-modal__frame"><video id="introVideo" src="assets/img/fotos/intro.mp4" controls playsinline preload="none"></video></div>
+  </div>
+  <script>
+    (function(){
+      var modal=document.getElementById('introModal'); if(!modal) return;
+      var vid=document.getElementById('introVideo'), btn=document.getElementById('introBtn'), close=document.getElementById('introClose');
+      function open(){ modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; try{vid.currentTime=0;}catch(e){} vid.play().catch(function(){}); }
+      function closeM(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); vid.pause(); document.body.style.overflow=''; }
+      if(btn) btn.addEventListener('click',open);
+      close.addEventListener('click',closeM);
+      modal.addEventListener('click',function(e){ if(e.target===modal) closeM(); });
+      document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&modal.classList.contains('open')) closeM(); });
+    })();
+  </script>
+</body>
+</html>
