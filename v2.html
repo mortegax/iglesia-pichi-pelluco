@@ -260,6 +260,62 @@
     .reveal{ transform:translateY(42px); }
     @media (prefers-reduced-motion: reduce){ .v2-intro{ display:none !important; } }
   </style>
+
+  <style id="v2-theme-2">
+    /* ---- Horarios: timetable editorial (fix domingo + orden) ---- */
+    .section--schedule .schedule{ display:block !important; max-width:860px; margin:0 auto !important; }
+    .section--schedule .schedule__item,
+    .section--schedule .schedule__item--feature,
+    .section--schedule .schedule__item--rest{
+      display:grid !important; grid-template-columns:190px 1fr; gap:1rem 2.5rem; align-items:baseline;
+      background:transparent !important; border:none !important; border-top:1px solid var(--v2-line) !important;
+      border-radius:0 !important; padding:1.8rem 0 !important; box-shadow:none !important; }
+    .section--schedule .schedule__item:last-child{ border-bottom:1px solid var(--v2-line) !important; }
+    .section--schedule .schedule__item:hover{ transform:none !important; box-shadow:none !important; }
+    .section--schedule .schedule__item::before{ display:none !important; }
+    .section--schedule .schedule__day{ font-size:1.3rem !important; font-weight:700 !important; letter-spacing:-.01em !important;
+      text-transform:none !important; color:var(--v2-ink) !important; }
+    .section--schedule .schedule__item--feature .schedule__day{ color:var(--v2-ink) !important; }
+    .section--schedule .schedule__activities{ margin-top:0 !important; gap:.8rem !important; }
+    .section--schedule .schedule__activities li{ border-bottom:none !important; padding-bottom:0 !important;
+      justify-content:flex-start; gap:1.4rem; }
+    .section--schedule .schedule__name{ color:var(--v2-ink) !important; font-weight:500 !important; font-size:1.08rem !important; }
+    .section--schedule .schedule__time{ color:var(--v2-muted) !important; font-family:var(--serif) !important;
+      font-size:1.3rem !important; font-weight:600; margin-top:0 !important; min-width:78px; }
+    .section--schedule .schedule__rest{ color:var(--v2-muted) !important; font-style:italic; margin-top:0 !important; }
+    @media(max-width:620px){ .section--schedule .schedule__item,
+      .section--schedule .schedule__item--feature,
+      .section--schedule .schedule__item--rest{ grid-template-columns:1fr !important; gap:.4rem !important; } }
+
+    /* ---- Historia: segundo momento a pantalla completa ---- */
+    .section--history{ background:#0a0a0c !important; color:#fff !important; position:relative; overflow:hidden; }
+    .section--history::after{ content:""; position:absolute; inset:0; z-index:0;
+      background:url("assets/img/fotos/historia.jpg") center/cover no-repeat; opacity:.42; }
+    .section--history::before{ content:""; position:absolute; inset:0; z-index:0;
+      background:linear-gradient(180deg, rgba(0,0,0,.6), rgba(0,0,0,.48)); }
+    .section--history .container{ position:relative; z-index:1; }
+    .section--history .grid-2{ display:block !important; }
+    .section--history .history__media{ display:none !important; }
+    .section--history .history__text{ max-width:840px; }
+    .section--history .kicker{ color:rgba(255,255,255,.72) !important; }
+    .section--history .display{ color:#fff !important; }
+    .section--history .history__text p{ color:rgba(255,255,255,.86) !important; }
+    .section--history .history__text strong{ color:#fff !important; }
+    .section--history .v2-readmore{ color:#fff !important; }
+
+    /* ---- Fe: lista editorial con números enormes ---- */
+    .section--faith .beliefs{ display:block !important; max-width:920px; margin:0 auto; }
+    .section--faith .beliefs li{ background:transparent !important; border:none !important;
+      border-top:1px solid var(--v2-line) !important; border-radius:0 !important; padding:2.1rem 0 !important; align-items:center; }
+    .section--faith .beliefs li:last-child{ border-bottom:1px solid var(--v2-line) !important; }
+    .section--faith .beliefs li:hover{ transform:none !important; background:transparent !important; }
+    .section--faith .beliefs__num{ font-size:clamp(2.6rem,5.5vw,4rem) !important; min-width:5.2rem; line-height:1; }
+    .section--faith .beliefs p{ font-size:clamp(1.05rem,1.7vw,1.35rem) !important; color:var(--v2-muted) !important; }
+
+    /* ---- Revelación de texto más expresiva ---- */
+    .reveal{ transform:translateY(66px) !important;
+      transition:opacity 1.1s cubic-bezier(.16,1,.3,1), transform 1.1s cubic-bezier(.16,1,.3,1) !important; }
+  </style>
 </head>
 <body>
   <!-- ===== v2: Intro a pantalla completa ===== -->
