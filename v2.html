@@ -405,6 +405,35 @@
       font-family:var(--serif); font-weight:600; font-size:2.6rem; line-height:1; margin-bottom:.7rem;
       color:var(--grad-c); }
   </style>
+
+  <style id="v2-theme-6">
+    /* ---- Horarios: panel contenido con horas protagonistas ---- */
+    .section--schedule .schedule{ max-width:760px !important; margin:0 auto !important; background:#fff;
+      border:1px solid var(--v2-line); border-radius:26px; padding:.5rem 2.6rem;
+      box-shadow:0 26px 70px rgba(0,0,0,.06); }
+    .section--schedule .schedule__item,
+    .section--schedule .schedule__item--feature,
+    .section--schedule .schedule__item--rest{
+      grid-template-columns:150px 1fr !important; gap:1rem 2rem !important; padding:1.7rem 0 !important;
+      border-top:1px solid var(--v2-line) !important; align-items:center !important; transition:padding .3s; }
+    .section--schedule .schedule__item:first-of-type{ border-top:none !important; }
+    .section--schedule .schedule__day{ font-size:1.12rem !important; font-weight:700 !important;
+      color:var(--v2-ink) !important; letter-spacing:-.01em; }
+    .section--schedule .schedule__item--feature .schedule__day{ color:var(--grad-c) !important; }
+    .section--schedule .schedule__activities{ gap:1rem !important; }
+    .section--schedule .schedule__activities li{ display:grid !important; grid-template-columns:1fr auto !important;
+      align-items:baseline !important; gap:2rem !important; }
+    .section--schedule .schedule__name{ font-size:1.12rem !important; font-weight:500 !important; color:var(--v2-ink) !important; }
+    .section--schedule .schedule__time{ font-family:var(--serif) !important; font-size:1.75rem !important;
+      font-weight:600 !important; color:var(--v2-ink) !important; min-width:auto !important; white-space:nowrap; }
+    .section--schedule .schedule__rest{ font-size:1rem !important; color:var(--v2-muted) !important; font-style:italic; }
+    @media(max-width:620px){
+      .section--schedule .schedule{ padding:.4rem 1.4rem; border-radius:20px; }
+      .section--schedule .schedule__item, .section--schedule .schedule__item--feature,
+      .section--schedule .schedule__item--rest{ grid-template-columns:1fr !important; gap:.45rem !important; padding:1.3rem 0 !important; }
+      .section--schedule .schedule__time{ font-size:1.5rem !important; }
+    }
+  </style>
 </head>
 <body>
 
